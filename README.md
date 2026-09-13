@@ -1,29 +1,71 @@
-# Create T3 App
+# Palmera
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+Plataforma token-gated que conecta aliados globales con comunidades indígenas de Bolivia. Crowdfunding transparente + turismo cultural ético vía Unlock Protocol.
 
-## What's next? How do I make an app with this?
+## Stack
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+- Next.js 15 (App Router) + TypeScript
+- tRPC v11 + React Query
+- Prisma + PostgreSQL
+- better-auth (email/password)
+- Tailwind CSS v4
+- wagmi + viem (Avalanche C-Chain, chainId 43114)
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+## Correr con Docker (recomendado)
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+```bash
+docker compose up -d --build
+```
 
-## Learn More
+Esto levanta PostgreSQL + la app (aplica migraciones, siembra las 3 comunidades de ejemplo y arranca el servidor).
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+- App: http://localhost:3000
+- PostgreSQL: `localhost:5434` (user/pass: `postgres`)
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+Parar:
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+```bash
+docker compose down          # conserva la data
+docker compose down -v       # borra la data
+```
 
-## How do I deploy this?
+## Correr en local (desarrollo)
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+Requisitos: Node 22+, pnpm 10, PostgreSQL.
+
+```bash
+cp .env.example .env   # y completá DATABASE_URL y BETTER_AUTH_SECRET
+pnpm install
+pnpm db:push           # o pnpm db:generate
+pnpm db:seed
+pnpm dev
+```
+
+## Estructura
+
+```
+src/
+  app/            # páginas (/, /comunidades, /comunidades/[slug], /transparencia)
+  server/api/     # routers tRPC (community, donation)
+  server/better-auth/
+  components/
+    ui/           # design system (migrado de Lumio)
+    palmera/      # componentes de negocio
+    web3/         # wagmi + Unlock + Pollar
+    layout/       # Header, Footer, PageWrapper
+  .claude/        # contexto del proyecto (tasks, decisiones, schema, componentes)
+```
+
+## Env vars
+
+| Variable | Uso |
+|---|---|
+| `DATABASE_URL` | conexión PostgreSQL |
+| `BETTER_AUTH_SECRET` | secreto de sesiones |
+| `BETTER_AUTH_URL` | URL base (http://localhost:3000) |
+| `NEXT_PUBLIC_MAPBOX_TOKEN` | mapa interactivo (opcional) |
+| `NEXT_PUBLIC_WALLETCONNECT_ID` | WalletConnect (opcional) |
+| `NEXT_PUBLIC_LOCK_ADDRESS_*` | Locks de Unlock Protocol (por comunidad) |
+| `NEXT_PUBLIC_NETWORK_ID` | 43114 (Avalanche) |
+
+Sin las envs opcionales, todo renderiza igual (mapa SVG ilustrativo + gate "conecta tu wallet").
