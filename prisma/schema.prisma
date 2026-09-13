@@ -1,31 +1,17 @@
-// Prisma schema for Better Auth
-// learn more: https://better-auth.com/docs/concepts/database
+// Prisma schema for Palmera (better-auth + Palmera domain models)
+// Auth models kept verbatim from the better-auth scaffold.
 
 generator client {
   provider = "prisma-client-js"
   output   = "../generated/prisma"
 }
 
-// NOTE: When using mysql or sqlserver, uncomment the //@db.Text annotations in model Account below
-// Further reading:
-// https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
-
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-model Post {
-  id        String   @id @default(cuid())
-  name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  createdBy   User   @relation(fields: [createdById], references: [id])
-  createdById String
-
-  @@index([name])
-}
+// ── Better Auth ───────────────────────────────────────────────────────────────
 
 model User {
   id            String    @id
@@ -33,11 +19,11 @@ model User {
   email         String
   emailVerified Boolean   @default(false)
   image         String? //@db.Text
+  walletAddress String?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @default(now()) @updatedAt
   sessions      Session[]
   accounts      Account[]
-  posts         Post[]
 
   @@unique([email])
   @@map("user")
@@ -86,4 +72,80 @@ model Verification {
   updatedAt  DateTime @default(now()) @updatedAt
 
   @@map("verification")
+}
+
+// ── Palmera domain ────────────────────────────────────────────────────────────
+
+model Community {
+  id           String    @id @default(cuid())
+  slug         String    @unique
+  name         String
+  department   String
+  lat          Float
+  lng          Float
+  category     String
+  problem      String
+  description  String    @db.Text
+  goalAmount   Float
+  raisedAmount Float     @default(0)
+  status       String    @default("active")
+  lockAddress  String?
+  network      Int       @default(43114)
+  images       String[]
+  responsible  String
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  donations    Donation[]
+  updates      CommunityUpdate[]
+  sections     CommunitySection[]
+}
+
+model CommunitySection {
+  id          String        @id @default(cuid())
+  communityId String
+  community   Community     @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  title       String
+  order       Int
+  isGated     Boolean       @default(true)
+  items       ContentItem[]
+
+  @@index([communityId, order])
+}
+
+model ContentItem {
+  id        String           @id @default(cuid())
+  sectionId String
+  section   CommunitySection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  type      String
+  title     String
+  body      String?          @db.Text
+  mediaUrl  String?
+  order     Int
+
+  @@index([sectionId, order])
+}
+
+model Donation {
+  id            String    @id @default(cuid())
+  communityId   String
+  community     Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  walletAddress String
+  amountUsdc    Float
+  txHash        String    @unique
+  network       String    @default("avalanche")
+  createdAt     DateTime  @default(now())
+
+  @@index([communityId])
+}
+
+model CommunityUpdate {
+  id          String    @id @default(cuid())
+  communityId String
+  community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  title       String
+  body        String    @db.Text
+  images      String[]
+  createdAt   DateTime  @default(now())
+
+  @@index([communityId, createdAt])
 }

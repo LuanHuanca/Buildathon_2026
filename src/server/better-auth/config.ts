@@ -11,11 +11,14 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
   },
-  socialProviders: {
-    github: {
-      clientId: env.BETTER_AUTH_GITHUB_CLIENT_ID,
-      clientSecret: env.BETTER_AUTH_GITHUB_CLIENT_SECRET,
-      redirectURI: "http://localhost:3000/api/auth/callback/github",
+  // NOTE: wallet-based auth (walletAddress on User) is planned for the Web3 phase.
+  // Social providers are intentionally omitted for the MVP (see .claude/decisions.md ADR-000).
+  user: {
+    additionalFields: {
+      walletAddress: {
+        type: "string",
+        required: false,
+      },
     },
   },
 });

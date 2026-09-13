@@ -19,8 +19,8 @@ refactor(scope): no behavior change
 - [x] .claude/ context system — commit: 6168b88
 - [x] Tailwind design tokens + fonts
 - [ ] .env.local setup
-- [ ] Prisma schema (Palmera models)
-- [ ] Prisma migrate + seed (3 communities)
+- [x] Prisma schema (Palmera models)
+- [x] Prisma migrate + seed (3 communities)
 
 ## Phase 1 — Design System (from Lumio)
 - [ ] Copy UI components from Lumio: Button, Card, Badge,
