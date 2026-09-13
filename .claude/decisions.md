@@ -63,9 +63,10 @@ Status: Accepted
 ## ADR-007: Web3 library versions
 Date: 2026-09-13
 Decision: wagmi v2 + viem v2 (Avalanche C-Chain 43114).
-Reason: wagmi v3 requires zod v4, which conflicts with zod v3 used by
-tRPC/better-auth/@t3-oss/env-nextjs. wagmi 2.19.x is the zod-v3-compatible
-line. Unlock membership check (`usePaywall` from @unlock-protocol/paywall)
-and Pollar onramp are deferred until LOCK_ADDRESS + Pollar API keys exist;
+Reason: wagmi v3 requires zod v4 (conflicts with zod v3 used by
+tRPC/better-auth/@t3-oss/env-nextjs). wagmi 2.14.0 pinned — later 2.19.x
+pulls `@base-org/account`→`@x402/*`, which webpack can't resolve under
+pnpm (fails `next build`). Unlock membership check (`usePaywall`) and
+Pollar onramp are deferred until LOCK_ADDRESS + Pollar API keys exist;
 UnlockGate is a connect-wallet gate for now (extends ADR-001).
 Status: Accepted
