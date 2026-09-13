@@ -35,25 +35,17 @@ pnpm dev
 En Privy (`https://dashboard.privy.io`) habilita Google, email y wallet, y
 agrega `http://localhost:3000` a los orígenes permitidos.
 
-## 2. Tesorería de donación
+## 2. Avalanche (donar, sin tocar `.env`)
 
-Cada comunidad nace con tesorería `0x000…000`. El botón Donar queda
-deshabilitado hasta que pongas una wallet real (la tuya de demo vale).
+Fuji ya es la red de donación por defecto. Guía paso a paso:
+[AVALANCHE.md](./AVALANCHE.md).
 
-En `.env`:
+Resumen: pon tu wallet en `Community.treasuryAddress` con
+`pnpm db:studio` (no en `.env`), pide AVAX + USDC Fuji a la dirección de
+Privy, y dona. La app cambia a Fuji sola.
 
-```bash
-DEMO_TREASURY_ADDRESS=0xTuWalletFuji
-```
-
-Luego:
-
-```bash
-pnpm exec prisma db seed
-```
-
-El seed no recrea comunidades si ya existen; solo rellena tesorerías en
-cero. Para cambiar una ya asignada usa Prisma Studio (`pnpm db:studio`).
+`DEMO_TREASURY_ADDRESS` en `.env` es opcional; el seed solo rellena
+tesorerías que sigan en cero.
 
 ## 3. Fondos de prueba
 

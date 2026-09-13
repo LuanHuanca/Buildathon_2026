@@ -114,5 +114,6 @@ en cero de forma segura y deben configurarse antes de aceptar fondos.
 ## Guías
 
 - [Integración de Unlock](docs/UNLOCK.md)
+- [Avalanche (donar sin tocar .env)](docs/AVALANCHE.md)
 - [Preparar y probar la demo](docs/TESTING-SETUP.md)
 - [Guion de presentación](docs/GUION-DEMO.md)
