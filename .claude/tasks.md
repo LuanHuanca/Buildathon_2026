@@ -23,11 +23,11 @@ refactor(scope): no behavior change
 - [x] Prisma migrate + seed (3 communities)
 
 ## Phase 1 — Design System (from Lumio)
-- [ ] Copy UI components from Lumio: Button, Card, Badge,
+- [x] Copy UI components from Lumio: Button, Card, Badge,
       Progress, Input, Select, Modal, Toast, Skeleton, Avatar
-- [ ] Apply Palmera color tokens
-- [ ] Apply Palmera typography (Playfair Display + Inter)
-- [ ] Layout: Header + Footer + PageWrapper adapted from Lumio
+- [x] Apply Palmera color tokens
+- [x] Apply Palmera typography (Playfair Display + Inter)
+- [x] Layout: Header + Footer + PageWrapper adapted from Lumio
 - [ ] Verify components render correctly (visual smoke test)
 
 ## Phase 2 — tRPC Routers
