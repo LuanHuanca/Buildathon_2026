@@ -31,8 +31,8 @@ refactor(scope): no behavior change
 - [ ] Verify components render correctly (visual smoke test)
 
 ## Phase 2 — tRPC Routers
-- [ ] communityRouter: getAll, getBySlug, getFeatured
-- [ ] donationRouter: create, getAll, getTotals
+- [x] communityRouter: getAll, getBySlug, getFeatured
+- [x] donationRouter: create, getAll, getTotals
 
 ## Phase 3 — Web3 Layer
 - [ ] WagmiProvider (Avalanche config)
