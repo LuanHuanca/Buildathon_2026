@@ -9,7 +9,8 @@ FROM base AS deps
 ENV DATABASE_URL=postgresql://postgres:postgres@localhost:5432/palmera
 COPY package.json pnpm-lock.yaml .npmrc ./
 COPY prisma/schema.prisma ./prisma/schema.prisma
-RUN pnpm install --frozen-lockfile
+RUN --mount=type=cache,id=pnpm-store,target=/pnpm/store \
+    pnpm install --frozen-lockfile
 
 # ---- Build (standalone) ----
 FROM base AS builder
@@ -35,7 +36,8 @@ COPY --from=builder /app/generated ./generated
 COPY --from=builder /app/package.json ./package.json
 
 # migrate + seed tooling (prisma CLI + tsx), kept out of the app runtime deps
-RUN npm install --prefix /tools --no-save prisma@6.19.3 tsx@4.23.13
+RUN --mount=type=cache,id=npm-tools,target=/root/.npm \
+    npm install --prefix /tools --no-save prisma@6.19.3 tsx@4.23.13
 ENV PATH="/tools/node_modules/.bin:${PATH}"
 
 EXPOSE 3000
