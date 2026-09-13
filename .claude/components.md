@@ -22,9 +22,9 @@
 - [x] TransparencyTable — on-chain tx history
 - [ ] BoliviaMap — react-map-gl with community markers (Phase 4)
 - [ ] CommunityPreviewPanel — map click panel (Phase 4)
-- [ ] UnlockGate — web3 content gate (Phase 3)
-- [ ] WalletButton — connect/disconnect wallet (Phase 3)
-- [ ] DonacionPollar — Pollar payment button (Phase 3)
+- [x] UnlockGate — web3 content gate (Phase 3)
+- [x] WalletButton — connect/disconnect wallet (Phase 3)
+- [x] DonacionPollar — Pollar payment button (Phase 3)
 
 ## Layout → src/components/layout/
 - [x] Header — nav Inicio/Comunidades/Transparencia + wallet placeholder
@@ -38,9 +38,10 @@
 
 ## Notes
 - DonationPanel/TransparencyTable are presentational; they accept data as props.
-  Wiring to tRPC (donationRouter/communityRouter) is Phase 2.
-- Header's "Conectar wallet" is a placeholder; WalletButton arrives in Phase 3.
-- src/components/web3/ reserved for wagmi + Unlock + Pollar (empty for now).
+  Wiring to tRPC (donationRouter/communityRouter) is Phase 2 (done).
+- src/components/web3/: wagmi config (Avalanche), WagmiProvider, WalletButton,
+  UnlockGate, DonacionPollar. Unlock membership check (usePaywall) + Pollar
+  onramp are deferred pending API keys (see ADR-007).
 
 ## File structure
 src/

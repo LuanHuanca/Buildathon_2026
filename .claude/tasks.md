@@ -35,10 +35,10 @@ refactor(scope): no behavior change
 - [x] donationRouter: create, getAll, getTotals
 
 ## Phase 3 — Web3 Layer
-- [ ] WagmiProvider (Avalanche config)
-- [ ] WalletButton component
-- [ ] UnlockGate component
-- [ ] DonacionPollar component
+- [x] WagmiProvider (Avalanche config)
+- [x] WalletButton component
+- [x] UnlockGate component
+- [x] DonacionPollar component
 
 ## Phase 4 — Pages
 - [ ] /transparencia — public dashboard (no web3)

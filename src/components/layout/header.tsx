@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { Button } from "~/components/ui/button";
+import { WalletButton } from "~/components/web3/wallet-button";
 
 const nav = [
   { href: "/", label: "Inicio" },
@@ -29,10 +29,7 @@ export function Header() {
             </Link>
           ))}
         </nav>
-        {/* WalletButton arrives in Phase 3 (web3). Placeholder for now. */}
-        <Button size="sm" variant="secondary">
-          Conectar wallet
-        </Button>
+        <WalletButton />
       </div>
     </header>
   );

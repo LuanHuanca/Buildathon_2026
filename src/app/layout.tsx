@@ -3,6 +3,7 @@ import "~/styles/globals.css";
 import { type Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 
+import { WagmiProvider } from "~/components/web3/wagmi-provider";
 import { TRPCReactProvider } from "~/trpc/react";
 
 export const metadata: Metadata = {
@@ -34,7 +35,9 @@ export default function RootLayout({
       className={`${inter.variable} ${playfair.variable}`}
     >
       <body>
-        <TRPCReactProvider>{children}</TRPCReactProvider>
+        <TRPCReactProvider>
+          <WagmiProvider>{children}</WagmiProvider>
+        </TRPCReactProvider>
       </body>
     </html>
   );
