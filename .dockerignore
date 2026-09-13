@@ -1,0 +1,13 @@
+node_modules
+.next
+generated
+.git
+.claude
+.env
+.env.local
+.env*.local
+Dockerfile
+docker-compose.yml
+.dockerignore
+*.log
+pnpm-debug.log*

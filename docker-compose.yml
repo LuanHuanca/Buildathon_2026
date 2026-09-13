@@ -1,0 +1,34 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: palmera
+    ports:
+      - "5434:5432"
+    volumes:
+      - palmera_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d palmera"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build:
+      context: .
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/palmera
+      BETTER_AUTH_SECRET: "Garx3B05ov5SLIg/yHPU6mSOH7F2F/GRiB8CzK1vNS4="
+    ports:
+      - "3000:3000"
+
+volumes:
+  palmera_pgdata:
