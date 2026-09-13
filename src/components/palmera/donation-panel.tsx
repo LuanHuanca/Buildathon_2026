@@ -4,6 +4,7 @@
 
 "use client";
 
+import { Lock } from "lucide-react";
 import { useState } from "react";
 
 import { Button } from "~/components/ui/button";
@@ -42,8 +43,8 @@ export function DonationPanel({
   return (
     <div className="space-y-6">
       <div>
-        <p className="mb-3 text-sm font-semibold text-foreground">
-          Donar a {communityName}
+        <p className="mb-3 font-mono text-xs uppercase tracking-widest text-muted-foreground">
+          Apoyar a {communityName}
         </p>
         <div className="grid grid-cols-4 gap-2">
           {PRESET_AMOUNTS.map((value) => (
@@ -55,10 +56,10 @@ export function DonationPanel({
                 setCustom("");
               }}
               className={cn(
-                "rounded-lg border px-2 py-2 text-sm font-semibold transition-colors",
+                "rounded-lg border py-2.5 font-mono text-sm font-semibold transition-all active:scale-95",
                 !custom.trim() && selected === value
-                  ? "border-primary bg-primary text-primary-foreground"
-                  : "border-border bg-card text-palmera-slate hover:bg-muted",
+                  ? "border-transparent bg-primary text-primary-foreground"
+                  : "border-border/40 bg-surface-container text-muted-foreground hover:bg-surface-container-high hover:text-foreground",
               )}
             >
               ${value}
@@ -68,7 +69,7 @@ export function DonationPanel({
       </div>
 
       <div className="space-y-2">
-        <label className="text-xs font-medium text-palmera-slate">
+        <label className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
           Otro monto (USDC)
         </label>
         <Input
@@ -89,23 +90,28 @@ export function DonationPanel({
         Donar {formatUsdc(amount)} USDC
       </Button>
 
-      <div>
-        <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-palmera-muted">
+      <div className="flex items-center justify-center gap-1.5 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+        <Lock className="h-3 w-3 text-primary" />
+        Transacción cifrada · Unlock Protocol
+      </div>
+
+      <div className="border-t border-border/40 pt-4">
+        <p className="mb-3 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
           Últimas donaciones
         </p>
         {recentDonations.length === 0 ? (
-          <p className="text-sm text-palmera-muted">Sin donaciones aún.</p>
+          <p className="text-sm text-muted-foreground">Sin donaciones aún.</p>
         ) : (
-          <ul className="space-y-2">
+          <ul className="space-y-2.5">
             {recentDonations.map((donation) => (
               <li
                 key={donation.id}
                 className="flex items-center justify-between text-sm"
               >
-                <span className="font-mono text-xs text-palmera-slate">
+                <span className="font-mono text-xs text-muted-foreground">
                   {shortAddress(donation.walletAddress)}
                 </span>
-                <span className="font-semibold text-palmera-forest">
+                <span className="font-mono text-xs font-semibold text-primary">
                   {formatUsdc(donation.amountUsdc)} USDC
                 </span>
               </li>

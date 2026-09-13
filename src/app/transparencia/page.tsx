@@ -23,23 +23,32 @@ export default async function TransparenciaPage() {
   }));
 
   return (
-    <div className="container py-10">
-      <h1 className="font-display text-3xl font-bold">Transparencia</h1>
-      <p className="mt-2 max-w-2xl text-palmera-slate">
-        Cada donación queda registrada on-chain. Acá mostramos el historial
-        completo y verificable.
+    <div className="container py-8">
+      <p className="font-mono text-[11px] uppercase tracking-widest text-primary">
+        Impacto · Ledger público
+      </p>
+      <h1 className="mt-1 font-display text-3xl font-bold">Transparencia</h1>
+      <p className="mt-2 max-w-2xl text-muted-foreground">
+        Cada donación queda registrada on-chain. Este es el historial completo
+        y verificable de los fondos.
       </p>
 
       <div className="mt-8 grid gap-4 sm:grid-cols-2">
-        <div className="rounded-2xl border border-border bg-card p-6">
-          <p className="text-sm text-palmera-muted">Total recaudado</p>
-          <p className="font-display text-3xl font-bold text-palmera-forest">
+        <div className="relative overflow-hidden rounded-xl border border-border/40 bg-surface-container p-6">
+          <span className="absolute -right-4 -top-4 h-16 w-16 rounded-full bg-primary/10 blur-xl" />
+          <p className="relative font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
+            Total recaudado
+          </p>
+          <p className="relative mt-2 font-display text-3xl font-bold text-primary">
             {formatUsdc(totals.totalUsdc)} USDC
           </p>
         </div>
-        <div className="rounded-2xl border border-border bg-card p-6">
-          <p className="text-sm text-palmera-muted">Total de donaciones</p>
-          <p className="font-display text-3xl font-bold text-palmera-indigo">
+        <div className="relative overflow-hidden rounded-xl border border-border/40 bg-surface-container p-6">
+          <span className="absolute -right-4 -top-4 h-16 w-16 rounded-full bg-secondary/10 blur-xl" />
+          <p className="relative font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
+            Total de donaciones
+          </p>
+          <p className="relative mt-2 font-display text-3xl font-bold text-secondary">
             {totals.totalDonations}
           </p>
         </div>

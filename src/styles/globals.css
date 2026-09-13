@@ -2,44 +2,70 @@
 
 @theme {
   /* Typography — loaded via next/font in layout.tsx */
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --font-display: var(--font-playfair), ui-serif, Georgia, "Times New Roman",
-    serif;
+  --font-sans: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-syne), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, "SF Mono", monospace;
 
-  /* ── PALMERA BRAND TOKENS ── */
-  --color-palmera-indigo: #1b2a4a; /* primary — deep trust */
-  --color-palmera-indigo-dark: #12203a;
-  --color-palmera-ochre: #c8882a; /* accent — altiplano earth */
-  --color-palmera-ochre-light: #e8a84a;
-  --color-palmera-stone: #f0ede5; /* base bg — altitude paper */
-  --color-palmera-stone-dark: #d8d4cc;
-  --color-palmera-slate: #4a5568; /* secondary text */
-  --color-palmera-forest: #2d6a4f; /* raised/success */
-  --color-palmera-muted: #8b8680; /* subtle/disabled */
+  /* Semantic tokens (shadcn) — Andean Cyber-Ecology dark baseline */
+  --color-background: #101412;
+  --color-foreground: #e0e3df;
+  --color-card: #181c1a;
+  --color-card-foreground: #e0e3df;
+  --color-popover: #1c211e;
+  --color-popover-foreground: #e0e3df;
+  --color-primary: #00e599;
+  --color-primary-foreground: #003822;
+  --color-secondary: #ffb800;
+  --color-secondary-foreground: #412d00;
+  --color-tertiary: #c3eed8;
+  --color-muted: #1c211e;
+  --color-muted-foreground: #bacbbe;
+  --color-accent: #ffdb9d;
+  --color-accent-foreground: #412d00;
+  --color-success: #00e599;
+  --color-success-foreground: #003822;
+  --color-destructive: #ffb4ab;
+  --color-destructive-foreground: #690005;
+  --color-border: #3b4a41;
+  --color-input: #3b4a41;
+  --color-ring: #00e599;
 
-  /* ── LUMIO SEMANTIC TOKENS (shadcn) → mapped to Palmera brand ── */
-  --color-background: #f0ede5;
-  --color-foreground: #1b2a4a;
-  --color-card: #ffffff;
-  --color-card-foreground: #1b2a4a;
-  --color-popover: #ffffff;
-  --color-popover-foreground: #1b2a4a;
-  --color-primary: #1b2a4a;
-  --color-primary-foreground: #ffffff;
-  --color-secondary: #c8882a;
-  --color-secondary-foreground: #ffffff;
-  --color-muted: #d8d4cc;
-  --color-muted-foreground: #4a5568;
-  --color-accent: #c8882a;
-  --color-accent-foreground: #ffffff;
-  --color-success: #2d6a4f;
-  --color-success-foreground: #ffffff;
-  --color-destructive: #dc2626;
-  --color-destructive-foreground: #ffffff;
-  --color-border: #d8d4cc;
-  --color-input: #d8d4cc;
-  --color-ring: #1b2a4a;
+  /* Surface elevation scale (Material dark) */
+  --color-surface: #101412;
+  --color-surface-container-lowest: #0b0f0d;
+  --color-surface-container-low: #181c1a;
+  --color-surface-container: #1c211e;
+  --color-surface-container-high: #272b28;
+  --color-surface-container-highest: #313633;
+  --color-on-surface-variant: #bacbbe;
+  --color-outline: #849589;
+  --color-outline-variant: #3b4a41;
 
-  --radius: 0.75rem;
+  /* Brand accents used in prose */
+  --color-emerald-neon: #00e599;
+  --color-andean-gold: #ffb800;
+  --color-canopy-glass: #002b1d;
+  --color-carbon-obsidian: #080c0a;
+
+  --radius: 0.5rem;
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    background-color: var(--color-surface);
+    color: var(--color-foreground);
+    background-image:
+      radial-gradient(1200px 600px at 80% -10%, rgba(0, 229, 153, 0.06), transparent 60%),
+      radial-gradient(900px 500px at -10% 20%, rgba(255, 184, 0, 0.05), transparent 55%);
+    background-attachment: fixed;
+  }
+
+  ::selection {
+    background-color: var(--color-primary);
+    color: var(--color-primary-foreground);
+  }
 }

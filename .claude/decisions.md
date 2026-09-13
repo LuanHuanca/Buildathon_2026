@@ -70,3 +70,14 @@ pnpm (fails `next build`). Unlock membership check (`usePaywall`) and
 Pollar onramp are deferred until LOCK_ADDRESS + Pollar API keys exist;
 UnlockGate is a connect-wallet gate for now (extends ADR-001).
 Status: Accepted
+
+## ADR-008: Design system — "Andean Cyber-Ecology"
+Date: 2026-09-13
+Decision: Replace the initial light Palmera palette with the Stitch
+design system from `stitch_palmera_web3_crowdfunding_platform/`
+("Andean Cyber-Ecology"). Dark baseline (`#101412`), emerald neon primary
+(`#00E599`), Andean gold secondary (`#FFB800`), typography Syne (display)
++ Space Grotesk (body) + JetBrains Mono (telemetry), glassmorphism + HUD
+mono labels. Source: DESIGN.md + code.html in the Stitch folder.
+Reason: User-provided improved design; wanted a more structured landing.
+Status: Accepted

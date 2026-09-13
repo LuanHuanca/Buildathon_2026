@@ -29,20 +29,25 @@ export default async function CommunityDetailPage({
   }));
 
   return (
-    <div className="container py-10">
-      <div className="mb-4 flex items-center gap-2">
+    <div className="container py-8">
+      <div className="mb-4 flex flex-wrap items-center gap-2">
+        <span className="font-mono text-[11px] uppercase tracking-widest text-primary">
+          LOC // {community.lat.toFixed(4)}, {community.lng.toFixed(4)} ·{" "}
+          {community.department.toUpperCase()}
+        </span>
         <Badge variant="success">
           {CATEGORY_LABELS[community.category] ?? community.category}
         </Badge>
-        <span className="text-sm text-palmera-muted">
-          {community.department}
-        </span>
       </div>
-      <h1 className="font-display text-4xl font-bold">{community.name}</h1>
-      <p className="mt-2 max-w-2xl text-palmera-slate">
+
+      <h1 className="max-w-3xl font-display text-4xl font-bold leading-tight">
+        {community.name}
+      </h1>
+      <p className="mt-3 max-w-2xl text-muted-foreground">
         {community.description}
       </p>
-      <div className="mt-4 max-w-xl">
+
+      <div className="mt-6 max-w-xl rounded-lg border border-border/40 bg-surface-container-low p-4">
         <ProgressGoal
           goalAmount={community.goalAmount}
           raisedAmount={community.raisedAmount}
@@ -53,39 +58,56 @@ export default async function CommunityDetailPage({
         <div className="space-y-10 lg:col-span-2">
           {community.sections.map((section) => (
             <section key={section.id}>
-              <h2 className="mb-4 font-display text-xl font-bold">
-                {section.title}
-              </h2>
+              <div className="mb-4 flex items-center gap-2">
+                <h2 className="font-display text-xl font-bold">
+                  {section.title}
+                </h2>
+                {section.isGated && (
+                  <span className="flex items-center gap-1 rounded bg-secondary/15 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-secondary">
+                    <span className="h-1 w-1 rounded-full bg-secondary" />
+                    Gated
+                  </span>
+                )}
+              </div>
+
               {section.isGated ? (
                 <UnlockGate lockAddress={community.lockAddress}>
+                  <div className="space-y-3">
+                    {section.items.map((item) => (
+                      <article
+                        key={item.id}
+                        className="rounded-lg border border-border/40 bg-surface-container-low p-4"
+                      >
+                        <h3 className="font-medium text-foreground">
+                          {item.title}
+                        </h3>
+                        {item.body && (
+                          <p className="mt-1.5 text-sm text-muted-foreground">
+                            {item.body}
+                          </p>
+                        )}
+                      </article>
+                    ))}
+                  </div>
+                </UnlockGate>
+              ) : (
+                <div className="space-y-3">
                   {section.items.map((item) => (
                     <article
                       key={item.id}
-                      className="mb-4 rounded-lg border border-border bg-card p-4"
+                      className="rounded-lg border border-border/40 bg-surface-container-low p-4"
                     >
-                      <h3 className="font-semibold">{item.title}</h3>
+                      <h3 className="font-medium text-foreground">
+                        {item.title}
+                      </h3>
                       {item.body && (
-                        <p className="mt-1 text-sm text-palmera-slate">
+                        <p className="mt-1.5 text-sm text-muted-foreground">
                           {item.body}
                         </p>
                       )}
                     </article>
                   ))}
-                </UnlockGate>
-              ) : (
-                section.items.map((item) => (
-                  <article
-                    key={item.id}
-                    className="mb-4 rounded-lg border border-border bg-card p-4"
-                  >
-                    <h3 className="font-semibold">{item.title}</h3>
-                    {item.body && (
-                      <p className="mt-1 text-sm text-palmera-slate">
-                        {item.body}
-                      </p>
-                    )}
-                  </article>
-                ))
+                </div>
               )}
             </section>
           ))}
@@ -93,23 +115,27 @@ export default async function CommunityDetailPage({
           {community.updates.length > 0 && (
             <section>
               <h2 className="mb-4 font-display text-xl font-bold">Avances</h2>
-              {community.updates.map((update) => (
-                <article
-                  key={update.id}
-                  className="mb-4 rounded-lg border border-border bg-card p-4"
-                >
-                  <h3 className="font-semibold">{update.title}</h3>
-                  <p className="mt-1 text-sm text-palmera-slate">
-                    {update.body}
-                  </p>
-                </article>
-              ))}
+              <div className="space-y-3">
+                {community.updates.map((update) => (
+                  <article
+                    key={update.id}
+                    className="rounded-lg border border-border/40 bg-surface-container-low p-4"
+                  >
+                    <h3 className="font-medium text-foreground">
+                      {update.title}
+                    </h3>
+                    <p className="mt-1.5 text-sm text-muted-foreground">
+                      {update.body}
+                    </p>
+                  </article>
+                ))}
+              </div>
             </section>
           )}
         </div>
 
         <aside>
-          <div className="sticky top-24 rounded-2xl border border-border bg-card p-6">
+          <div className="sticky top-24 rounded-xl border border-border/40 bg-surface-container-low p-5">
             <DonationPanel
               communityId={community.id}
               communityName={community.name}

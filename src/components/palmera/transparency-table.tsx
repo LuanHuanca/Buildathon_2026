@@ -34,38 +34,40 @@ export function TransparencyTable({
   showCommunityColumn?: boolean;
 }) {
   return (
-    <div className="overflow-x-auto rounded-xl border border-border bg-card">
+    <div className="overflow-x-auto rounded-xl border border-border/40 bg-surface-container-low">
       <table className="w-full text-sm">
         <thead>
-          <tr className="border-b border-border text-left text-xs uppercase tracking-wide text-palmera-muted">
-            {showCommunityColumn && <th className="px-4 py-3 font-semibold">Comunidad</th>}
-            <th className="px-4 py-3 font-semibold">Wallet</th>
-            <th className="px-4 py-3 font-semibold">Monto</th>
-            <th className="px-4 py-3 font-semibold">Fecha</th>
-            <th className="px-4 py-3 font-semibold">Hash</th>
+          <tr className="border-b border-border/40 text-left font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
+            {showCommunityColumn && (
+              <th className="px-4 py-3 font-medium">Comunidad</th>
+            )}
+            <th className="px-4 py-3 font-medium">Wallet</th>
+            <th className="px-4 py-3 font-medium">Monto</th>
+            <th className="px-4 py-3 font-medium">Fecha</th>
+            <th className="px-4 py-3 font-medium">Hash</th>
           </tr>
         </thead>
         <tbody>
           {donations.map((donation) => (
             <tr
               key={donation.id}
-              className="border-b border-border/60 last:border-0"
+              className="border-b border-border/30 last:border-0"
             >
               {showCommunityColumn && (
                 <td className="px-4 py-3 font-medium text-foreground">
                   {donation.communityName}
                 </td>
               )}
-              <td className="px-4 py-3 font-mono text-xs text-palmera-slate">
+              <td className="px-4 py-3 font-mono text-xs text-muted-foreground">
                 {short(donation.walletAddress)}
               </td>
-              <td className="px-4 py-3 font-semibold text-palmera-forest">
+              <td className="px-4 py-3 font-mono text-xs font-semibold text-primary">
                 {formatUsdc(donation.amountUsdc)} USDC
               </td>
-              <td className="px-4 py-3 text-palmera-slate">
+              <td className="px-4 py-3 text-muted-foreground">
                 {formatDate(donation.createdAt)}
               </td>
-              <td className="px-4 py-3 font-mono text-xs text-palmera-muted">
+              <td className="px-4 py-3 font-mono text-xs text-outline">
                 {short(donation.txHash, 10, 8)}
               </td>
             </tr>
@@ -74,7 +76,7 @@ export function TransparencyTable({
             <tr>
               <td
                 colSpan={showCommunityColumn ? 5 : 4}
-                className="px-4 py-8 text-center text-palmera-muted"
+                className="px-4 py-8 text-center text-muted-foreground"
               >
                 Sin transacciones registradas.
               </td>

@@ -28,6 +28,7 @@ refactor(scope): no behavior change
 - [x] Apply Palmera color tokens
 - [x] Apply Palmera typography (Playfair Display + Inter)
 - [x] Layout: Header + Footer + PageWrapper adapted from Lumio
+- [x] Redesign to Stitch "Andean Cyber-Ecology" (dark, Syne/Space Grotesk/JetBrains Mono, emerald/gold)
 - [ ] Verify components render correctly (visual smoke test)
 
 ## Phase 2 — tRPC Routers

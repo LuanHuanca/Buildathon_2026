@@ -44,39 +44,48 @@ export function BoliviaMap({ communities }: { communities: MapCommunity[] }) {
   ).join(" ");
 
   return (
-    <div className="rounded-2xl border border-border bg-card p-6">
-      <svg viewBox={`0 0 ${W} ${H}`} className="mx-auto w-full max-w-md">
-        <polygon
-          points={points}
-          fill="#f0ede5"
-          stroke="#c8882a"
-          strokeWidth={2}
-        />
-        {communities.map((community) => {
-          const [x, y] = project(community.lng, community.lat);
-          return (
-            <Link key={community.slug} href={`/comunidades/${community.slug}`}>
-              <g className="cursor-pointer">
-                <circle cx={x} cy={y} r={7} fill="#2d6a4f" />
-                <text
-                  x={x}
-                  y={y - 14}
-                  textAnchor="middle"
-                  fill="#1b2a4a"
-                  fontSize={14}
-                  fontWeight={600}
-                >
-                  {community.name}
-                </text>
-              </g>
-            </Link>
-          );
-        })}
-      </svg>
-      <p className="mt-4 text-center text-xs text-palmera-muted">
-        Mapa ilustrativo. El mapa interactivo (react-map-gl) se activa con
-        NEXT_PUBLIC_MAPBOX_TOKEN.
-      </p>
+    <div className="relative overflow-hidden rounded-xl border border-border/40 bg-surface-container-low p-6">
+      <span className="absolute inset-0 bg-[radial-gradient(500px_300px_at_50%_0%,rgba(0,229,153,0.08),transparent)]" />
+      <div className="relative">
+        <svg viewBox={`0 0 ${W} ${H}`} className="mx-auto w-full max-w-md">
+          <polygon
+            points={points}
+            fill="#181c1a"
+            stroke="#ffb800"
+            strokeOpacity={0.5}
+            strokeWidth={2}
+          />
+          {communities.map((community) => {
+            const [x, y] = project(community.lng, community.lat);
+            return (
+              <Link key={community.slug} href={`/comunidades/${community.slug}`}>
+                <g className="cursor-pointer">
+                  <circle cx={x} cy={y} r={8} fill="#00e599" fillOpacity={0.25} />
+                  <circle cx={x} cy={y} r={3.5} fill="#00e599" />
+                  <text
+                    x={x}
+                    y={y - 14}
+                    textAnchor="middle"
+                    fill="#e0e3df"
+                    fontSize={13}
+                    fontWeight={600}
+                  >
+                    {community.name}
+                  </text>
+                </g>
+              </Link>
+            );
+          })}
+        </svg>
+      </div>
+      <div className="relative mt-4 flex items-center justify-between border-t border-border/40 pt-3">
+        <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+          Sistema GEO_BOL // EPSG:4326
+        </span>
+        <span className="font-mono text-[10px] uppercase tracking-widest text-secondary">
+          Mapa ilustrativo
+        </span>
+      </div>
     </div>
   );
 }
