@@ -63,9 +63,13 @@ src/
 | `DATABASE_URL` | conexión PostgreSQL |
 | `BETTER_AUTH_SECRET` | secreto de sesiones |
 | `BETTER_AUTH_URL` | URL base (http://localhost:3000) |
-| `NEXT_PUBLIC_MAPBOX_TOKEN` | mapa interactivo (opcional) |
+| `NEXT_PUBLIC_TREASURY_ADDRESS` | wallet que recibe las donaciones en USDC |
+| `NEXT_PUBLIC_USDC_ADDRESS` | USDC nativo en Avalanche (ya tiene default) |
 | `NEXT_PUBLIC_WALLETCONNECT_ID` | WalletConnect (opcional) |
-| `NEXT_PUBLIC_LOCK_ADDRESS_*` | Locks de Unlock Protocol (por comunidad) |
+| `NEXT_PUBLIC_MAPBOX_TOKEN` | mapa interactivo (opcional) |
+| `NEXT_PUBLIC_LOCK_ADDRESS_*` | Locks de Unlock Protocol (por comunidad, opcional) |
 | `NEXT_PUBLIC_NETWORK_ID` | 43114 (Avalanche) |
 
-Sin las envs opcionales, todo renderiza igual (mapa SVG ilustrativo + gate "conecta tu wallet").
+Las donaciones son transferencias nativas de USDC en Avalanche C-Chain
+(Pollar fue descartado). Sin `NEXT_PUBLIC_TREASURY_ADDRESS`, el botón "Donar"
+queda deshabilitado; el resto renderiza igual.

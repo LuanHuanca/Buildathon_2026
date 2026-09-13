@@ -25,7 +25,7 @@
 - [ ] CommunityPreviewPanel — map click panel (Phase 4, pending interactive map)
 - [x] UnlockGate — web3 content gate (Phase 3)
 - [x] WalletButton — connect/disconnect wallet (Phase 3)
-- [x] DonacionPollar — Pollar payment button (Phase 3)
+- [x] DonationPanel — native USDC transfer on Avalanche (Pollar dropped)
 
 ## Layout → src/components/layout/
 - [x] Header — nav Inicio/Comunidades/Transparencia + wallet placeholder
@@ -40,9 +40,10 @@
 ## Notes
 - DonationPanel/TransparencyTable are presentational; they accept data as props.
   Wiring to tRPC (donationRouter/communityRouter) is Phase 2 (done).
-- src/components/web3/: wagmi config (Avalanche), WagmiProvider, WalletButton,
-  UnlockGate, DonacionPollar. Unlock membership check (usePaywall) + Pollar
-  onramp are deferred pending API keys (see ADR-007).
+- src/components/web3/: wagmi config (Avalanche), constants (USDC/treasury),
+  WagmiProvider, WalletButton, UnlockGate. Donations are native USDC transfers
+  on Avalanche (Pollar dropped, see ADR-009). Unlock membership check (usePaywall)
+  still deferred pending lock addresses.
 
 ## File structure
 src/

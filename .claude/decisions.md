@@ -71,6 +71,16 @@ Pollar onramp are deferred until LOCK_ADDRESS + Pollar API keys exist;
 UnlockGate is a connect-wallet gate for now (extends ADR-001).
 Status: Accepted
 
+## ADR-009: Donation flow — native Avalanche (Pollar dropped)
+Date: 2026-09-13
+Decision: Drop Pollar (fiat onramp) and make donations a native USDC
+transfer on Avalanche C-Chain via wagmi/viem (`erc20Abi` + `transfer` to
+NEXT_PUBLIC_TREASURY_ADDRESS). On tx submission, record the donation via
+`donationRouter.create` (publicProcedure) with the tx hash.
+Reason: Pollar required a call with the provider that couldn't happen.
+Native USDC keeps the on-chain transparency promise with no fiat ramp.
+Status: Accepted — requires NEXT_PUBLIC_TREASURY_ADDRESS
+
 ## ADR-008: Design system — "Andean Cyber-Ecology"
 Date: 2026-09-13
 Decision: Replace the initial light Palmera palette with the Stitch

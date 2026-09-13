@@ -1,16 +1,29 @@
-// Palmera-specific. Amount picker + custom input + Donar button.
-// "Donar" is wired to Pollar in Phase 3; recent donations come from
-// donationRouter.getAll in Phase 2 (see .claude/tasks.md).
+// Palmera-specific. Donation flow: native USDC transfer on Avalanche C-Chain.
+// Replaces the previous Pollar (fiat onramp) stub — see .claude/decisions.md ADR-009.
 
 "use client";
 
-import { Lock } from "lucide-react";
+import { Lock, Loader2, Wallet } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
+import { erc20Abi, parseUnits } from "viem";
+import {
+  useAccount,
+  useConnect,
+  useWriteContract,
+} from "wagmi";
 
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
+import {
+  TREASURY_ADDRESS,
+  USDC_ADDRESS,
+  USDC_DECIMALS,
+} from "~/components/web3/constants";
 import { formatUsdc } from "~/lib/format";
 import { cn } from "~/lib/utils";
+import { api } from "~/trpc/react";
 
 const PRESET_AMOUNTS = [5, 10, 25, 50];
 
@@ -35,10 +48,66 @@ export function DonationPanel({
   communityName: string;
   recentDonations?: RecentDonation[];
 }) {
+  const router = useRouter();
+  const { address, isConnected } = useAccount();
+  const { connect, connectors } = useConnect();
+  const { writeContractAsync, isPending: isWriting } = useWriteContract();
+
   const [selected, setSelected] = useState<number>(10);
   const [custom, setCustom] = useState<string>("");
 
   const amount = custom.trim() ? Number(custom) : selected;
+  const amountValid = Number.isFinite(amount) && amount > 0;
+  const treasuryReady = TREASURY_ADDRESS.length > 0;
+
+  const createDonation = api.donation.create.useMutation({
+    onSuccess: () => {
+      toast.success("Donación registrada on-chain");
+      router.refresh();
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
+  const busy = isWriting || createDonation.isPending;
+
+  const handleDonate = async () => {
+    if (!isConnected || !address) {
+      const connector = connectors[0];
+      if (connector) connect({ connector });
+      return;
+    }
+
+    if (!treasuryReady || !amountValid) return;
+
+    try {
+      const hash = await writeContractAsync({
+        address: USDC_ADDRESS as `0x${string}`,
+        abi: erc20Abi,
+        functionName: "transfer",
+        args: [
+          TREASURY_ADDRESS as `0x${string}`,
+          parseUnits(String(amount), USDC_DECIMALS),
+        ],
+      });
+
+      await createDonation.mutateAsync({
+        communityId,
+        walletAddress: address,
+        amountUsdc: amount,
+        txHash: hash,
+      });
+    } catch {
+      toast.error("Transacción cancelada o fallida");
+    }
+  };
+
+  const ctaLabel = !isConnected
+    ? "Conectar wallet"
+    : !treasuryReady
+      ? "Tesorería no configurada"
+      : `Donar ${formatUsdc(amount)} USDC`;
 
   return (
     <div className="space-y-6">
@@ -84,15 +153,21 @@ export function DonationPanel({
       <Button
         className="w-full"
         size="lg"
-        disabled={!amount || amount <= 0}
+        disabled={busy || (!isConnected && !amountValid) || (isConnected && !treasuryReady)}
         data-community-id={communityId}
+        onClick={handleDonate}
       >
-        Donar {formatUsdc(amount)} USDC
+        {busy ? (
+          <Loader2 className="h-4 w-4 animate-spin" />
+        ) : (
+          <Wallet className="h-4 w-4" />
+        )}
+        {ctaLabel}
       </Button>
 
       <div className="flex items-center justify-center gap-1.5 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
         <Lock className="h-3 w-3 text-primary" />
-        Transacción cifrada · Unlock Protocol
+        Avalanche C-Chain · USDC nativo
       </div>
 
       <div className="border-t border-border/40 pt-4">

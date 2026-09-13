@@ -39,7 +39,7 @@ refactor(scope): no behavior change
 - [x] WagmiProvider (Avalanche config)
 - [x] WalletButton component
 - [x] UnlockGate component
-- [x] DonacionPollar component
+- [x] Donation flow on Avalanche (native USDC transfer — Pollar dropped, ADR-009)
 
 ## Phase 4 — Pages
 - [x] /transparencia — public dashboard (no web3)
