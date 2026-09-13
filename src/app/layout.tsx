@@ -4,6 +4,7 @@ import { type Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 
 import { WagmiProvider } from "~/components/web3/wagmi-provider";
+import { PageWrapper } from "~/components/layout/page-wrapper";
 import { TRPCReactProvider } from "~/trpc/react";
 
 export const metadata: Metadata = {
@@ -36,7 +37,9 @@ export default function RootLayout({
     >
       <body>
         <TRPCReactProvider>
-          <WagmiProvider>{children}</WagmiProvider>
+          <WagmiProvider>
+            <PageWrapper>{children}</PageWrapper>
+          </WagmiProvider>
         </TRPCReactProvider>
       </body>
     </html>

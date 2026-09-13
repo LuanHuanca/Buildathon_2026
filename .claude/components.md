@@ -20,8 +20,9 @@
 - [x] CategoryFilter — pill filter bar
 - [x] DonationPanel — sidebar with amount picker
 - [x] TransparencyTable — on-chain tx history
-- [ ] BoliviaMap — react-map-gl with community markers (Phase 4)
-- [ ] CommunityPreviewPanel — map click panel (Phase 4)
+- [x] BoliviaMap — SVG fallback with community markers (react-map-gl pending token)
+- [x] CommunityCatalog — client wrapper: CategoryFilter + CommunityCard grid
+- [ ] CommunityPreviewPanel — map click panel (Phase 4, pending interactive map)
 - [x] UnlockGate — web3 content gate (Phase 3)
 - [x] WalletButton — connect/disconnect wallet (Phase 3)
 - [x] DonacionPollar — Pollar payment button (Phase 3)

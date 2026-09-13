@@ -41,10 +41,10 @@ refactor(scope): no behavior change
 - [x] DonacionPollar component
 
 ## Phase 4 — Pages
-- [ ] /transparencia — public dashboard (no web3)
-- [ ] /comunidades — catalog with category filter
-- [ ] / — landing with Bolivia map
-- [ ] /comunidades/[slug] — detail with Unlock gate
+- [x] /transparencia — public dashboard (no web3)
+- [x] /comunidades — catalog with category filter
+- [x] / — landing with Bolivia map
+- [x] /comunidades/[slug] — detail with Unlock gate
 
 ## Phase 5 — Integration & Polish
 - [ ] End-to-end donation flow test
