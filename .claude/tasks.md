@@ -16,8 +16,8 @@ refactor(scope): no behavior change
 
 ## Phase 0 — Foundation
 - [x] T3 stack init — commit: 0a9d510
-- [x] .claude/ context system — commit: TBD
-- [ ] Tailwind design tokens + fonts
+- [x] .claude/ context system — commit: 6168b88
+- [x] Tailwind design tokens + fonts
 - [ ] .env.local setup
 - [ ] Prisma schema (Palmera models)
 - [ ] Prisma migrate + seed (3 communities)
