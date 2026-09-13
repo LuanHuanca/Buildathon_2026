@@ -5,6 +5,12 @@
 import "./src/env.js";
 
 /** @type {import("next").NextConfig} */
-const config = {};
+const config = {
+  // standalone output → slim Docker image + faster cold start
+  output: "standalone",
+  // keep Prisma external (native engine not bundleable by webpack)
+  serverExternalPackages: ["@prisma/client", "prisma"],
+  poweredByHeader: false,
+};
 
 export default config;

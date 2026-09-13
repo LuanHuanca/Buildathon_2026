@@ -263,6 +263,12 @@ const communities = [
 async function main() {
   console.log("Seeding Palmera database...");
 
+  const existing = await prisma.community.count();
+  if (existing > 0) {
+    console.log(`  Database already seeded (${existing} communities). Skipping.`);
+    return;
+  }
+
   await prisma.donation.deleteMany();
   await prisma.communityUpdate.deleteMany();
   await prisma.contentItem.deleteMany();
