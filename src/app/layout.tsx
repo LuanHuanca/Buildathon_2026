@@ -1,17 +1,19 @@
 import "~/styles/globals.css";
 
 import { type Metadata } from "next";
-import { JetBrains_Mono, Space_Grotesk, Syne } from "next/font/google";
+import { Inter, JetBrains_Mono, Syne } from "next/font/google";
 
 import { PageWrapper } from "~/components/layout/page-wrapper";
-import { WagmiProvider } from "~/components/web3/wagmi-provider";
+import {
+  PrivyAuthProvider,
+  Web3Provider,
+} from "~/components/web3/privy-provider";
 import { TRPCReactProvider } from "~/trpc/react";
 
 export const metadata: Metadata = {
-  title: "Palmera",
+  title: "Munay",
   description:
-    "Plataforma token-gated que conecta aliados globales con comunidades indígenas de Bolivia.",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
+    "Culturas que nos unen. Archivo y apoyo para comunidades indígenas de Bolivia.",
 };
 
 const syne = Syne({
@@ -21,11 +23,10 @@ const syne = Syne({
   weight: ["600", "700", "800"],
 });
 
-const spaceGrotesk = Space_Grotesk({
+const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-space-grotesk",
+  variable: "--font-inter",
   display: "swap",
-  weight: ["300", "400", "500", "600", "700"],
 });
 
 const jetbrainsMono = JetBrains_Mono({
@@ -41,14 +42,16 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${syne.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
+      className={`${syne.variable} ${inter.variable} ${jetbrainsMono.variable}`}
     >
-      <body className="bg-surface font-sans text-foreground antialiased">
-        <TRPCReactProvider>
-          <WagmiProvider>
-            <PageWrapper>{children}</PageWrapper>
-          </WagmiProvider>
-        </TRPCReactProvider>
+      <body className="bg-surface text-foreground font-sans antialiased">
+        <PrivyAuthProvider>
+          <TRPCReactProvider>
+            <Web3Provider>
+              <PageWrapper>{children}</PageWrapper>
+            </Web3Provider>
+          </TRPCReactProvider>
+        </PrivyAuthProvider>
       </body>
     </html>
   );

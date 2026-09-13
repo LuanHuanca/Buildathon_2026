@@ -14,7 +14,7 @@ export const auth = betterAuth({
     sendResetPassword: async ({ user, url }) => {
       await sendMail(
         user.email,
-        "Restablece tu contraseña en Palmera",
+        "Restablece tu contraseña en Munay",
         `Restablece tu contraseña aquí: ${url}`,
       );
     },
@@ -25,7 +25,7 @@ export const auth = betterAuth({
     sendVerificationEmail: async ({ user, url }) => {
       await sendMail(
         user.email,
-        "Verifica tu correo en Palmera",
+        "Verifica tu correo en Munay",
         `Verifica tu correo aquí: ${url}`,
       );
     },

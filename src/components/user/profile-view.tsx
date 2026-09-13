@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useAccount } from "wagmi";
 
 import { WalletButton } from "~/components/web3/wallet-button";
+import { txUrl } from "~/lib/chains";
 import { formatUsdc } from "~/lib/format";
 import { api } from "~/trpc/react";
 
@@ -61,33 +62,33 @@ export function ProfileView({ user }: { user: ProfileUser }) {
   return (
     <div className="space-y-6">
       {/* Identity card */}
-      <div className="relative overflow-hidden rounded-xl border border-border/40 bg-surface-container-low p-5">
-        <span className="absolute -right-12 -top-12 h-44 w-44 rounded-full bg-primary/10 blur-3xl" />
+      <div className="border-border/40 bg-surface-container-low relative overflow-hidden rounded-xl border p-5">
+        <span className="bg-primary/10 absolute -top-12 -right-12 h-44 w-44 rounded-full blur-3xl" />
         <div className="relative flex items-start gap-4">
-          <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-gradient-to-tr from-primary via-primary to-secondary p-0.5 shadow-[0_0_15px_rgba(0,229,153,0.35)]">
-            <span className="flex h-full w-full items-center justify-center rounded-full bg-surface-container-lowest font-display text-xl font-bold text-primary">
+          <div className="from-primary via-primary to-secondary flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-gradient-to-tr p-0.5 shadow-[0_0_15px_rgba(229,142,38,0.28)]">
+            <span className="bg-surface-container-lowest font-display text-primary flex h-full w-full items-center justify-center rounded-full text-xl font-bold">
               {initials(user.name)}
             </span>
           </div>
           <div className="min-w-0 flex-1">
-            <h1 className="truncate font-display text-xl font-bold text-foreground">
+            <h1 className="font-display text-foreground truncate text-xl font-bold">
               {user.name}
             </h1>
-            <p className="font-mono text-xs text-muted-foreground">
+            <p className="text-muted-foreground font-mono text-xs">
               {user.email}
             </p>
             <div className="mt-2 flex flex-wrap items-center gap-2">
-              <span className="flex items-center gap-1.5 rounded bg-surface-container-lowest px-2 py-1 font-mono text-xs text-foreground">
-                <Wallet className="h-3.5 w-3.5 text-primary" />
+              <span className="bg-surface-container-lowest text-foreground flex items-center gap-1.5 rounded px-2 py-1 font-mono text-xs">
+                <Wallet className="text-primary h-3.5 w-3.5" />
                 {isConnected && address ? shortAddress(address) : "Sin wallet"}
               </span>
               {isConnected && address && (
                 <button
                   onClick={copyWallet}
-                  className="flex items-center gap-1 font-mono text-xs text-muted-foreground transition-colors hover:text-primary"
+                  className="text-muted-foreground hover:text-primary flex items-center gap-1 font-mono text-xs transition-colors"
                 >
                   {copied ? (
-                    <Check className="h-3.5 w-3.5 text-primary" />
+                    <Check className="text-primary h-3.5 w-3.5" />
                   ) : (
                     <Copy className="h-3.5 w-3.5" />
                   )}
@@ -98,32 +99,32 @@ export function ProfileView({ user }: { user: ProfileUser }) {
             </div>
           </div>
         </div>
-        <div className="relative mt-4 flex flex-wrap items-center justify-between gap-2 border-t border-border/40 pt-3">
-          <span className="flex items-center gap-1.5 text-sm text-muted-foreground">
+        <div className="border-border/40 relative mt-4 flex flex-wrap items-center justify-between gap-2 border-t pt-3">
+          <span className="text-muted-foreground flex items-center gap-1.5 text-sm">
             Miembro desde {formatDate(user.createdAt)}
           </span>
-          <span className="flex items-center gap-1 rounded bg-primary/10 px-2 py-0.5 font-mono text-[11px] uppercase tracking-wider text-primary">
+          <span className="bg-primary/10 text-primary flex items-center gap-1 rounded px-2 py-0.5 font-mono text-[11px] tracking-wider uppercase">
             <Check className="h-3 w-3" />
-            Correo verificado
+            Identidad Web3
           </span>
         </div>
       </div>
 
       {/* Stats */}
       <div className="grid grid-cols-2 gap-3">
-        <div className="rounded-xl border border-border/40 bg-surface-container p-4">
-          <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+        <div className="border-border/40 bg-surface-container rounded-xl border p-4">
+          <p className="text-muted-foreground font-mono text-[10px] tracking-wider uppercase">
             Aporte total
           </p>
-          <p className="mt-1.5 font-display text-2xl font-bold text-primary">
+          <p className="font-display text-primary mt-1.5 text-2xl font-bold">
             {formatUsdc(total)} USDC
           </p>
         </div>
-        <div className="rounded-xl border border-border/40 bg-surface-container p-4">
-          <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+        <div className="border-border/40 bg-surface-container rounded-xl border p-4">
+          <p className="text-muted-foreground font-mono text-[10px] tracking-wider uppercase">
             Proyectos apoyados
           </p>
-          <p className="mt-1.5 font-display text-2xl font-bold text-secondary">
+          <p className="font-display text-secondary mt-1.5 text-2xl font-bold">
             {projectCount}
           </p>
         </div>
@@ -136,21 +137,21 @@ export function ProfileView({ user }: { user: ProfileUser }) {
             Historial de mis donaciones
           </h2>
           {donations && (
-            <span className="font-mono text-xs text-primary">
+            <span className="text-primary font-mono text-xs">
               {donations.length} registros
             </span>
           )}
         </div>
 
         {!isConnected ? (
-          <div className="rounded-xl border border-dashed border-border/40 bg-surface-container-low p-8 text-center">
-            <p className="text-sm text-muted-foreground">
+          <div className="border-border/40 bg-surface-container-low rounded-xl border border-dashed p-8 text-center">
+            <p className="text-muted-foreground text-sm">
               Conectá tu wallet para ver tu historial de donaciones.
             </p>
           </div>
         ) : donations?.length === 0 ? (
-          <div className="rounded-xl border border-dashed border-border/40 bg-surface-container-low p-8 text-center">
-            <p className="text-sm text-muted-foreground">
+          <div className="border-border/40 bg-surface-container-low rounded-xl border border-dashed p-8 text-center">
+            <p className="text-muted-foreground text-sm">
               Aún no hay donaciones desde esta wallet.
             </p>
           </div>
@@ -159,36 +160,36 @@ export function ProfileView({ user }: { user: ProfileUser }) {
             {donations?.map((donation) => (
               <div
                 key={donation.id}
-                className="rounded-xl border border-border/40 bg-surface-container p-4 transition-colors hover:bg-surface-container-high"
+                className="border-border/40 bg-surface-container hover:bg-surface-container-high rounded-xl border p-4 transition-colors"
               >
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0">
-                    <h3 className="truncate font-medium text-foreground">
+                    <h3 className="text-foreground truncate font-medium">
                       {donation.community.name}
                     </h3>
-                    <p className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
+                    <p className="text-muted-foreground font-mono text-[11px] tracking-wider uppercase">
                       {formatDate(donation.createdAt)}
                     </p>
                   </div>
                   <div className="shrink-0 text-right">
-                    <div className="font-display text-lg font-bold text-primary">
+                    <div className="font-display text-primary text-lg font-bold">
                       {formatUsdc(donation.amountUsdc)} USDC
                     </div>
-                    <span className="mt-1 inline-flex items-center gap-1 rounded bg-primary/10 px-1.5 py-0.5 font-mono text-[10px] uppercase text-primary">
-                      <span className="h-1 w-1 rounded-full bg-primary" />
+                    <span className="bg-primary/10 text-primary mt-1 inline-flex items-center gap-1 rounded px-1.5 py-0.5 font-mono text-[10px] uppercase">
+                      <span className="bg-primary h-1 w-1 rounded-full" />
                       Completado
                     </span>
                   </div>
                 </div>
-                <div className="mt-2 flex items-center justify-between rounded bg-surface-container-lowest/80 px-2.5 py-1.5">
-                  <span className="truncate font-mono text-xs text-muted-foreground">
+                <div className="bg-surface-container-lowest/80 mt-2 flex items-center justify-between rounded px-2.5 py-1.5">
+                  <span className="text-muted-foreground truncate font-mono text-xs">
                     TX: {shortAddress(donation.txHash)}
                   </span>
                   <a
-                    href={`https://snowtrace.io/tx/${donation.txHash}`}
+                    href={txUrl(donation.txHash)}
                     target="_blank"
                     rel="noreferrer"
-                    className="flex items-center gap-0.5 font-mono text-xs text-primary hover:underline"
+                    className="text-primary flex items-center gap-0.5 font-mono text-xs hover:underline"
                   >
                     Explorer
                     <ExternalLink className="h-3 w-3" />

@@ -37,7 +37,7 @@ export function CommunityCatalog({
     <div className="space-y-6">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-outline" />
+          <Search className="text-outline absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
           <Input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -45,23 +45,19 @@ export function CommunityCatalog({
             className="pl-9"
           />
         </div>
-        <div className="flex shrink-0 items-center gap-1.5 rounded-lg border border-border/40 bg-surface-container px-2.5 py-2">
+        <div className="border-border/40 bg-surface-container flex shrink-0 items-center gap-1.5 rounded-lg border px-2.5 py-2">
           <select
             value={department ?? "all"}
             onChange={(e) =>
               setDepartment(e.target.value === "all" ? null : e.target.value)
             }
-            className="bg-transparent font-mono text-xs uppercase tracking-wide text-foreground focus:outline-none"
+            className="text-foreground bg-transparent font-mono text-xs tracking-wide uppercase focus:outline-none"
           >
             <option value="all" className="bg-surface-container">
               Todos los departamentos
             </option>
             {departments.map((dept) => (
-              <option
-                key={dept}
-                value={dept}
-                className="bg-surface-container"
-              >
+              <option key={dept} value={dept} className="bg-surface-container">
                 {dept}
               </option>
             ))}
@@ -71,21 +67,20 @@ export function CommunityCatalog({
 
       <div className="flex items-center justify-between">
         <CategoryFilter selected={selected} onChange={setSelected} />
-        <span className="hidden font-mono text-[11px] text-primary sm:block">
-          {filtered.length}{" "}
-          {filtered.length === 1 ? "proyecto" : "proyectos"}
+        <span className="text-primary hidden font-mono text-[11px] sm:block">
+          {filtered.length} {filtered.length === 1 ? "proyecto" : "proyectos"}
         </span>
       </div>
 
       {filtered.length === 0 ? (
-        <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border/40 bg-surface-container-low px-6 py-16 text-center">
-          <span className="mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-surface-container-high text-outline">
+        <div className="border-border/40 bg-surface-container-low flex flex-col items-center justify-center rounded-xl border border-dashed px-6 py-16 text-center">
+          <span className="bg-surface-container-high text-outline mb-3 flex h-14 w-14 items-center justify-center rounded-full">
             <Search className="h-6 w-6" />
           </span>
-          <p className="font-display text-lg font-bold text-foreground">
+          <p className="font-display text-foreground text-lg font-bold">
             Sin proyectos en este cuadrante
           </p>
-          <p className="mt-1 text-sm text-muted-foreground">
+          <p className="text-muted-foreground mt-1 text-sm">
             Prueba con otra categoría, departamento o término de búsqueda.
           </p>
         </div>

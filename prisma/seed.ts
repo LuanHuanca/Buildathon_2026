@@ -1,6 +1,7 @@
 import { PrismaClient } from "../generated/prisma";
 
 const prisma = new PrismaClient();
+const UNCONFIGURED_TREASURY = "0x0000000000000000000000000000000000000000";
 
 const communities = [
   {
@@ -17,6 +18,7 @@ const communities = [
     goalAmount: 25000,
     raisedAmount: 8400,
     status: "active",
+    treasuryAddress: UNCONFIGURED_TREASURY,
     network: 43114,
     images: [],
     responsible: "Consejo de Ayllus Uru Chipaya",
@@ -108,6 +110,7 @@ const communities = [
     goalAmount: 40000,
     raisedAmount: 18300,
     status: "active",
+    treasuryAddress: UNCONFIGURED_TREASURY,
     network: 43114,
     images: [],
     responsible: "Centro Espiritual y Político de la Cultura Tiwanaku",
@@ -193,6 +196,7 @@ const communities = [
     goalAmount: 18000,
     raisedAmount: 6250,
     status: "active",
+    treasuryAddress: UNCONFIGURED_TREASURY,
     network: 43114,
     images: [],
     responsible: "Asociación de Tejedoras de Tarabuco",
@@ -260,12 +264,33 @@ const communities = [
   },
 ];
 
+async function applyDemoTreasury() {
+  const raw = process.env.DEMO_TREASURY_ADDRESS?.trim();
+  if (!raw) return;
+  if (
+    !/^0x[a-fA-F0-9]{40}$/.test(raw) ||
+    raw.toLowerCase() === UNCONFIGURED_TREASURY
+  ) {
+    console.warn("  DEMO_TREASURY_ADDRESS inválida. Se ignora.");
+    return;
+  }
+
+  const result = await prisma.community.updateMany({
+    where: { treasuryAddress: UNCONFIGURED_TREASURY },
+    data: { treasuryAddress: raw },
+  });
+  console.log(`  Tesorería demo aplicada a ${result.count} comunidades.`);
+}
+
 async function main() {
-  console.log("Seeding Palmera database...");
+  console.log("Seeding Munay database...");
 
   const existing = await prisma.community.count();
   if (existing > 0) {
-    console.log(`  Database already seeded (${existing} communities). Skipping.`);
+    console.log(
+      `  Database already seeded (${existing} communities). Skipping create.`,
+    );
+    await applyDemoTreasury();
     return;
   }
 
@@ -318,6 +343,7 @@ async function main() {
     console.log(`  ✓ ${community.name} (${community.slug})`);
   }
 
+  await applyDemoTreasury();
   console.log("Seed complete.");
 }
 

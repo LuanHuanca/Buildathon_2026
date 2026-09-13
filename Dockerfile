@@ -10,12 +10,20 @@ ENV DATABASE_URL=postgresql://postgres:postgres@localhost:5432/palmera
 COPY package.json pnpm-lock.yaml .npmrc ./
 COPY prisma/schema.prisma ./prisma/schema.prisma
 RUN --mount=type=cache,id=pnpm-store,target=/pnpm/store \
-    pnpm install --frozen-lockfile
+    pnpm install --frozen-lockfile --store-dir=/pnpm/store
 
 # ---- Build (standalone) ----
 FROM base AS builder
 ENV SKIP_ENV_VALIDATION=1
 ENV DATABASE_URL=postgresql://postgres:postgres@localhost:5432/palmera
+ARG NEXT_PUBLIC_DONATION_CHAIN_ID=43113
+ARG NEXT_PUBLIC_UNLOCK_CHAIN_ID=11155111
+ARG NEXT_PUBLIC_PRIVY_APP_ID=
+ARG NEXT_PUBLIC_MUNAY_LOCK_ADDRESS=
+ENV NEXT_PUBLIC_DONATION_CHAIN_ID=$NEXT_PUBLIC_DONATION_CHAIN_ID
+ENV NEXT_PUBLIC_UNLOCK_CHAIN_ID=$NEXT_PUBLIC_UNLOCK_CHAIN_ID
+ENV NEXT_PUBLIC_PRIVY_APP_ID=$NEXT_PUBLIC_PRIVY_APP_ID
+ENV NEXT_PUBLIC_MUNAY_LOCK_ADDRESS=$NEXT_PUBLIC_MUNAY_LOCK_ADDRESS
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN pnpm prisma generate && pnpm build

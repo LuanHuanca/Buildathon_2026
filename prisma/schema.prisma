@@ -90,6 +90,7 @@ model Community {
   raisedAmount Float     @default(0)
   status       String    @default("active")
   lockAddress  String?
+  treasuryAddress String
   network      Int       @default(43114)
   images       String[]
   responsible  String

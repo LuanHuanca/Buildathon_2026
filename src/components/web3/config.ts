@@ -1,7 +1,7 @@
 "use client";
 
 import { http, createConfig, type CreateConnectorFn } from "wagmi";
-import { avalanche } from "wagmi/chains";
+import { avalanche, sepolia } from "wagmi/chains";
 import { injected, walletConnect } from "wagmi/connectors";
 
 const walletConnectId = process.env.NEXT_PUBLIC_WALLETCONNECT_ID;
@@ -12,9 +12,10 @@ if (walletConnectId) {
 }
 
 export const config = createConfig({
-  chains: [avalanche],
+  chains: [avalanche, sepolia],
   connectors,
   transports: {
     [avalanche.id]: http(),
+    [sepolia.id]: http(),
   },
 });

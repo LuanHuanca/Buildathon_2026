@@ -3,29 +3,36 @@
 
 "use client";
 
-import { Lock, Loader2, Wallet } from "lucide-react";
+import { Loader2, Wallet } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import { erc20Abi, parseUnits } from "viem";
 import {
   useAccount,
+  useChainId,
   useConnect,
+  usePublicClient,
+  useSwitchChain,
   useWriteContract,
 } from "wagmi";
 
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import {
-  TREASURY_ADDRESS,
-  USDC_ADDRESS,
-  USDC_DECIMALS,
-} from "~/components/web3/constants";
+  DONATION_CHAIN_ID,
+  donationChain,
+  networkName,
+  txUrl,
+  USDC_ADDRESSES,
+} from "~/lib/chains";
 import { formatUsdc } from "~/lib/format";
 import { cn } from "~/lib/utils";
 import { api } from "~/trpc/react";
 
-const PRESET_AMOUNTS = [5, 10, 25, 50];
+const PRESET_AMOUNTS = [5, 10, 25, 50, 100];
+const USDC_DECIMALS = 6;
+const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
 
 export interface RecentDonation {
   id: string;
@@ -42,23 +49,32 @@ function shortAddress(address: string): string {
 export function DonationPanel({
   communityId,
   communityName,
+  treasuryAddress,
   recentDonations = [],
 }: {
   communityId: string;
   communityName: string;
+  treasuryAddress: string;
   recentDonations?: RecentDonation[];
 }) {
   const router = useRouter();
   const { address, isConnected } = useAccount();
+  const chainId = useChainId();
   const { connect, connectors } = useConnect();
+  const { switchChainAsync } = useSwitchChain();
   const { writeContractAsync, isPending: isWriting } = useWriteContract();
+  const publicClient = usePublicClient({ chainId: DONATION_CHAIN_ID });
 
   const [selected, setSelected] = useState<number>(10);
   const [custom, setCustom] = useState<string>("");
 
   const amount = custom.trim() ? Number(custom) : selected;
   const amountValid = Number.isFinite(amount) && amount > 0;
-  const treasuryReady = TREASURY_ADDRESS.length > 0;
+  const treasuryReady =
+    /^0x[a-fA-F0-9]{40}$/.test(treasuryAddress) &&
+    treasuryAddress.toLowerCase() !== ZERO_ADDRESS;
+  const usdcAddress =
+    USDC_ADDRESSES[DONATION_CHAIN_ID] ?? USDC_ADDRESSES[donationChain.id]!;
 
   const createDonation = api.donation.create.useMutation({
     onSuccess: () => {
@@ -82,16 +98,22 @@ export function DonationPanel({
     if (!treasuryReady || !amountValid) return;
 
     try {
+      if (chainId !== DONATION_CHAIN_ID) {
+        await switchChainAsync({ chainId: DONATION_CHAIN_ID });
+      }
+
       const hash = await writeContractAsync({
-        address: USDC_ADDRESS as `0x${string}`,
+        chainId: DONATION_CHAIN_ID,
+        address: usdcAddress,
         abi: erc20Abi,
         functionName: "transfer",
         args: [
-          TREASURY_ADDRESS as `0x${string}`,
+          treasuryAddress as `0x${string}`,
           parseUnits(String(amount), USDC_DECIMALS),
         ],
       });
 
+      await publicClient?.waitForTransactionReceipt({ hash });
       await createDonation.mutateAsync({
         communityId,
         walletAddress: address,
@@ -112,10 +134,10 @@ export function DonationPanel({
   return (
     <div className="space-y-6">
       <div>
-        <p className="mb-3 font-mono text-xs uppercase tracking-widest text-muted-foreground">
+        <p className="text-muted-foreground mb-3 font-mono text-xs tracking-widest uppercase">
           Apoyar a {communityName}
         </p>
-        <div className="grid grid-cols-4 gap-2">
+        <div className="grid grid-cols-5 gap-2">
           {PRESET_AMOUNTS.map((value) => (
             <button
               key={value}
@@ -127,7 +149,7 @@ export function DonationPanel({
               className={cn(
                 "rounded-lg border py-2.5 font-mono text-sm font-semibold transition-all active:scale-95",
                 !custom.trim() && selected === value
-                  ? "border-transparent bg-primary text-primary-foreground"
+                  ? "bg-primary text-primary-foreground border-transparent"
                   : "border-border/40 bg-surface-container text-muted-foreground hover:bg-surface-container-high hover:text-foreground",
               )}
             >
@@ -138,7 +160,7 @@ export function DonationPanel({
       </div>
 
       <div className="space-y-2">
-        <label className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
+        <label className="text-muted-foreground font-mono text-[11px] tracking-widest uppercase">
           Otro monto (USDC)
         </label>
         <Input
@@ -153,7 +175,11 @@ export function DonationPanel({
       <Button
         className="w-full"
         size="lg"
-        disabled={busy || (!isConnected && !amountValid) || (isConnected && !treasuryReady)}
+        disabled={
+          busy ||
+          (!isConnected && !amountValid) ||
+          (isConnected && !treasuryReady)
+        }
         data-community-id={communityId}
         onClick={handleDonate}
       >
@@ -165,17 +191,28 @@ export function DonationPanel({
         {ctaLabel}
       </Button>
 
-      <div className="flex items-center justify-center gap-1.5 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
-        <Lock className="h-3 w-3 text-primary" />
-        Avalanche C-Chain · USDC nativo
-      </div>
+      <p className="text-muted-foreground text-center text-xs leading-relaxed">
+        La membresía y la donación son actos separados. Esta donación usa{" "}
+        {networkName(donationChain.id)}.
+      </p>
 
-      <div className="border-t border-border/40 pt-4">
-        <p className="mb-3 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
+      {createDonation.data?.txHash ? (
+        <a
+          href={txUrl(createDonation.data.txHash)}
+          target="_blank"
+          rel="noreferrer"
+          className="text-primary block text-center text-xs font-semibold underline"
+        >
+          Ver transacción en el explorador ↗
+        </a>
+      ) : null}
+
+      <div className="border-border/40 border-t pt-4">
+        <p className="text-muted-foreground mb-3 font-mono text-[11px] tracking-widest uppercase">
           Últimas donaciones
         </p>
         {recentDonations.length === 0 ? (
-          <p className="text-sm text-muted-foreground">Sin donaciones aún.</p>
+          <p className="text-muted-foreground text-sm">Sin donaciones aún.</p>
         ) : (
           <ul className="space-y-2.5">
             {recentDonations.map((donation) => (
@@ -183,10 +220,10 @@ export function DonationPanel({
                 key={donation.id}
                 className="flex items-center justify-between text-sm"
               >
-                <span className="font-mono text-xs text-muted-foreground">
+                <span className="text-muted-foreground font-mono text-xs">
                   {shortAddress(donation.walletAddress)}
                 </span>
-                <span className="font-mono text-xs font-semibold text-primary">
+                <span className="text-primary font-mono text-xs font-semibold">
                   {formatUsdc(donation.amountUsdc)} USDC
                 </span>
               </li>

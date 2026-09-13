@@ -50,9 +50,9 @@ export function CategoryFilter({
             type="button"
             onClick={() => onChange(opt.key === "all" ? null : opt.key)}
             className={cn(
-              "flex items-center gap-1.5 rounded-lg border px-3 py-1.5 font-mono text-xs uppercase tracking-wide transition-all",
+              "flex items-center gap-1.5 rounded-lg border px-3 py-1.5 font-mono text-xs tracking-wide uppercase transition-all",
               active
-                ? "border-transparent bg-primary font-bold text-primary-foreground shadow-sm"
+                ? "bg-primary text-primary-foreground border-transparent font-bold shadow-sm"
                 : "border-border/40 bg-surface-container text-muted-foreground hover:bg-surface-container-high hover:text-foreground",
             )}
           >

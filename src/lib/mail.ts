@@ -8,7 +8,7 @@ const transporter = nodemailer.createTransport({
 
 export async function sendMail(to: string, subject: string, text: string) {
   await transporter.sendMail({
-    from: process.env.SMTP_FROM ?? "Palmera <no-reply@palmera.local>",
+    from: process.env.SMTP_FROM ?? "Munay <no-reply@munay.local>",
     to,
     subject,
     text,

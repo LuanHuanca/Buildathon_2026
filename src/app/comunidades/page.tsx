@@ -8,13 +8,13 @@ export default async function ComunidadesPage() {
 
   return (
     <div className="container py-8">
-      <p className="font-mono text-[11px] uppercase tracking-widest text-primary">
+      <p className="text-primary font-mono text-[11px] tracking-widest uppercase">
         Explorar · Catálogo on-chain
       </p>
-      <h1 className="mt-1 font-display text-3xl font-bold">
+      <h1 className="font-display mt-1 text-3xl font-bold">
         Iniciativas vivas
       </h1>
-      <p className="mt-2 max-w-2xl text-muted-foreground">
+      <p className="text-muted-foreground mt-2 max-w-2xl">
         Apoya a comunidades indígenas de Bolivia con transparencia total y
         membresías Web3.
       </p>

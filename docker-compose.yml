@@ -23,9 +23,18 @@ services:
       - "1025:1025" # SMTP
       - "8025:8025" # web UI
 
+  # Optional. The demo runs with `pnpm dev` against this Postgres.
+  # Start it only if you want a containerized Next.js build:
+  # docker compose --profile full up -d --build
   app:
+    profiles: ["full"]
     build:
       context: .
+      args:
+        NEXT_PUBLIC_DONATION_CHAIN_ID: ${NEXT_PUBLIC_DONATION_CHAIN_ID:-43113}
+        NEXT_PUBLIC_UNLOCK_CHAIN_ID: ${NEXT_PUBLIC_UNLOCK_CHAIN_ID:-11155111}
+        NEXT_PUBLIC_PRIVY_APP_ID: ${NEXT_PUBLIC_PRIVY_APP_ID:-}
+        NEXT_PUBLIC_MUNAY_LOCK_ADDRESS: ${NEXT_PUBLIC_MUNAY_LOCK_ADDRESS:-}
     restart: unless-stopped
     depends_on:
       db:
@@ -35,11 +44,15 @@ services:
     environment:
       NODE_ENV: production
       DATABASE_URL: postgresql://postgres:postgres@db:5432/palmera
-      BETTER_AUTH_SECRET: "Garx3B05ov5SLIg/yHPU6mSOH7F2F/GRiB8CzK1vNS4="
+      BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET}
       BETTER_AUTH_URL: http://localhost:3000
       SMTP_HOST: mailhog
       SMTP_PORT: "1025"
-      SMTP_FROM: "Palmera <no-reply@palmera.local>"
+      SMTP_FROM: "Munay <no-reply@munay.local>"
+      NEXT_PUBLIC_DONATION_CHAIN_ID: ${NEXT_PUBLIC_DONATION_CHAIN_ID:-43113}
+      NEXT_PUBLIC_UNLOCK_CHAIN_ID: ${NEXT_PUBLIC_UNLOCK_CHAIN_ID:-11155111}
+      NEXT_PUBLIC_PRIVY_APP_ID: ${NEXT_PUBLIC_PRIVY_APP_ID:-}
+      NEXT_PUBLIC_MUNAY_LOCK_ADDRESS: ${NEXT_PUBLIC_MUNAY_LOCK_ADDRESS:-}
     ports:
       - "3000:3000"
 

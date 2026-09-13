@@ -23,7 +23,14 @@ export const env = createEnv({
    * `NEXT_PUBLIC_`.
    */
   client: {
-    // NEXT_PUBLIC_CLIENTVAR: z.string(),
+    NEXT_PUBLIC_DONATION_CHAIN_ID: z.coerce.number().int().default(43113),
+    NEXT_PUBLIC_UNLOCK_CHAIN_ID: z.coerce.number().int().default(11155111),
+    NEXT_PUBLIC_PRIVY_APP_ID: z.string().optional(),
+    NEXT_PUBLIC_WALLETCONNECT_ID: z.string().optional(),
+    NEXT_PUBLIC_MUNAY_LOCK_ADDRESS: z
+      .string()
+      .regex(/^0x[a-fA-F0-9]{40}$/)
+      .optional(),
   },
 
   /**
@@ -34,6 +41,11 @@ export const env = createEnv({
     BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET,
     DATABASE_URL: process.env.DATABASE_URL,
     NODE_ENV: process.env.NODE_ENV,
+    NEXT_PUBLIC_DONATION_CHAIN_ID: process.env.NEXT_PUBLIC_DONATION_CHAIN_ID,
+    NEXT_PUBLIC_UNLOCK_CHAIN_ID: process.env.NEXT_PUBLIC_UNLOCK_CHAIN_ID,
+    NEXT_PUBLIC_PRIVY_APP_ID: process.env.NEXT_PUBLIC_PRIVY_APP_ID,
+    NEXT_PUBLIC_WALLETCONNECT_ID: process.env.NEXT_PUBLIC_WALLETCONNECT_ID,
+    NEXT_PUBLIC_MUNAY_LOCK_ADDRESS: process.env.NEXT_PUBLIC_MUNAY_LOCK_ADDRESS,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

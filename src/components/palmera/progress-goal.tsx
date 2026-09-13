@@ -15,19 +15,19 @@ export function ProgressGoal({
   return (
     <div className="flex flex-col gap-1.5">
       <div className="flex items-center justify-between font-mono text-xs">
-        <span className="font-semibold text-foreground">
+        <span className="text-foreground font-semibold">
           {formatUsdc(raisedAmount)} USDC{" "}
-          <span className="font-normal text-muted-foreground">recaudado</span>
+          <span className="text-muted-foreground font-normal">recaudado</span>
         </span>
-        <span className="font-bold text-primary">{pct}%</span>
+        <span className="text-primary font-bold">{pct}%</span>
       </div>
-      <div className="h-2 w-full overflow-hidden rounded-full bg-surface-container-highest">
+      <div className="bg-surface-container-highest h-2 w-full overflow-hidden rounded-full">
         <div
-          className="h-full rounded-full bg-primary transition-all duration-700"
+          className="bg-primary h-full rounded-full transition-all duration-700"
           style={{ width: `${pct}%` }}
         />
       </div>
-      <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+      <div className="text-muted-foreground flex items-center justify-between font-mono text-[10px] tracking-wider uppercase">
         <span>Meta: {formatUsdc(goalAmount)} USDC</span>
         <span>
           Restan {formatUsdc(Math.max(0, goalAmount - raisedAmount))} USDC

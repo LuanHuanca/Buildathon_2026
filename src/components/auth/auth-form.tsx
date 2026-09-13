@@ -51,20 +51,20 @@ export function AuthForm({ mode }: { mode: "signin" | "signup" }) {
 
   if (sentEmail) {
     return (
-      <div className="flex flex-col items-center gap-4 rounded-xl border border-border/40 bg-surface-container-low p-8 text-center">
-        <span className="flex h-14 w-14 items-center justify-center rounded-full bg-primary/15">
-          <MailCheck className="h-7 w-7 text-primary" />
+      <div className="border-border/40 bg-surface-container-low flex flex-col items-center gap-4 rounded-xl border p-8 text-center">
+        <span className="bg-primary/15 flex h-14 w-14 items-center justify-center rounded-full">
+          <MailCheck className="text-primary h-7 w-7" />
         </span>
         <h2 className="font-display text-xl font-bold">Verifica tu correo</h2>
-        <p className="max-w-sm text-sm text-muted-foreground">
+        <p className="text-muted-foreground max-w-sm text-sm">
           Te enviamos un enlace de verificación a{" "}
-          <span className="font-mono text-foreground">{sentEmail}</span>. Revisa
+          <span className="text-foreground font-mono">{sentEmail}</span>. Revisa
           MailHog en{" "}
           <a
             href="http://localhost:8025"
             target="_blank"
             rel="noreferrer"
-            className="font-mono text-primary underline"
+            className="text-primary font-mono underline"
           >
             http://localhost:8025
           </a>{" "}
@@ -79,7 +79,7 @@ export function AuthForm({ mode }: { mode: "signin" | "signup" }) {
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         {isSignup && (
           <div className="space-y-2">
-            <label className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
+            <label className="text-muted-foreground font-mono text-[11px] tracking-widest uppercase">
               Nombre
             </label>
             <Input
@@ -91,7 +91,7 @@ export function AuthForm({ mode }: { mode: "signin" | "signup" }) {
           </div>
         )}
         <div className="space-y-2">
-          <label className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
+          <label className="text-muted-foreground font-mono text-[11px] tracking-widest uppercase">
             Email
           </label>
           <Input
@@ -103,7 +103,7 @@ export function AuthForm({ mode }: { mode: "signin" | "signup" }) {
           />
         </div>
         <div className="space-y-2">
-          <label className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
+          <label className="text-muted-foreground font-mono text-[11px] tracking-widest uppercase">
             Contraseña
           </label>
           <Input
@@ -122,11 +122,11 @@ export function AuthForm({ mode }: { mode: "signin" | "signup" }) {
         </Button>
       </form>
 
-      <p className="mt-4 text-center text-sm text-muted-foreground">
+      <p className="text-muted-foreground mt-4 text-center text-sm">
         {isSignup ? "¿Ya tenés cuenta?" : "¿No tenés cuenta?"}{" "}
         <Link
           href={isSignup ? "/login" : "/registro"}
-          className="font-mono text-xs uppercase tracking-wide text-primary hover:underline"
+          className="text-primary font-mono text-xs tracking-wide uppercase hover:underline"
         >
           {isSignup ? "Iniciar sesión" : "Crear cuenta"}
         </Link>

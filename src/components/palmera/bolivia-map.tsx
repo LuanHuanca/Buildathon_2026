@@ -39,13 +39,13 @@ const BOLIVIA_OUTLINE: [number, number][] = [
 ];
 
 export function BoliviaMap({ communities }: { communities: MapCommunity[] }) {
-  const points = BOLIVIA_OUTLINE.map(
-    ([lng, lat]) => project(lng, lat).join(","),
+  const points = BOLIVIA_OUTLINE.map(([lng, lat]) =>
+    project(lng, lat).join(","),
   ).join(" ");
 
   return (
-    <div className="relative overflow-hidden rounded-xl border border-border/40 bg-surface-container-low p-6">
-      <span className="absolute inset-0 bg-[radial-gradient(500px_300px_at_50%_0%,rgba(0,229,153,0.08),transparent)]" />
+    <div className="border-border/40 bg-surface-container-low relative overflow-hidden rounded-xl border p-6">
+      <span className="absolute inset-0 bg-[radial-gradient(500px_300px_at_50%_0%,rgba(107,216,203,0.1),transparent)]" />
       <div className="relative">
         <svg viewBox={`0 0 ${W} ${H}`} className="mx-auto w-full max-w-md">
           <polygon
@@ -58,15 +58,24 @@ export function BoliviaMap({ communities }: { communities: MapCommunity[] }) {
           {communities.map((community) => {
             const [x, y] = project(community.lng, community.lat);
             return (
-              <Link key={community.slug} href={`/comunidades/${community.slug}`}>
+              <Link
+                key={community.slug}
+                href={`/comunidades/${community.slug}`}
+              >
                 <g className="cursor-pointer">
-                  <circle cx={x} cy={y} r={8} fill="#00e599" fillOpacity={0.25} />
-                  <circle cx={x} cy={y} r={3.5} fill="#00e599" />
+                  <circle
+                    cx={x}
+                    cy={y}
+                    r={8}
+                    fill="#6bd8cb"
+                    fillOpacity={0.25}
+                  />
+                  <circle cx={x} cy={y} r={3.5} fill="#6bd8cb" />
                   <text
                     x={x}
                     y={y - 14}
                     textAnchor="middle"
-                    fill="#e0e3df"
+                    fill="#f2dfd6"
                     fontSize={13}
                     fontWeight={600}
                   >
@@ -78,11 +87,11 @@ export function BoliviaMap({ communities }: { communities: MapCommunity[] }) {
           })}
         </svg>
       </div>
-      <div className="relative mt-4 flex items-center justify-between border-t border-border/40 pt-3">
-        <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+      <div className="border-border/40 relative mt-4 flex items-center justify-between border-t pt-3">
+        <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
           Sistema GEO_BOL // EPSG:4326
         </span>
-        <span className="font-mono text-[10px] uppercase tracking-widest text-secondary">
+        <span className="text-secondary font-mono text-[10px] tracking-widest uppercase">
           Mapa ilustrativo
         </span>
       </div>

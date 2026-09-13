@@ -12,7 +12,9 @@ export function UserMenu() {
   const { data: session, isPending } = authClient.useSession();
 
   if (isPending) {
-    return <div className="h-8 w-20 animate-pulse rounded bg-surface-container-high" />;
+    return (
+      <div className="bg-surface-container-high h-8 w-20 animate-pulse rounded" />
+    );
   }
 
   if (session?.user) {
@@ -20,9 +22,9 @@ export function UserMenu() {
       <div className="flex items-center gap-2">
         <Link
           href="/perfil"
-          className="flex items-center gap-1.5 rounded px-2 py-1 font-mono text-xs text-foreground transition-colors hover:bg-surface-container-high"
+          className="text-foreground hover:bg-surface-container-high flex items-center gap-1.5 rounded px-2 py-1 font-mono text-xs transition-colors"
         >
-          <User className="h-3.5 w-3.5 text-primary" />
+          <User className="text-primary h-3.5 w-3.5" />
           {session.user.name}
         </Link>
         <Button

@@ -23,11 +23,11 @@ export interface CommunityCardData {
 }
 
 const CATEGORY_GRADIENTS: Record<string, string> = {
-  environment: "from-canopy-glass via-surface-container to-surface-container-low",
-  culture: "from-[#3a2a00] via-surface-container to-surface-container-low",
-  heritage: "from-[#00211a] via-surface-container to-surface-container-low",
-  education: "from-[#002a3a] via-surface-container to-surface-container-low",
-  resilience: "from-[#2a0018] via-surface-container to-surface-container-low",
+  environment: "from-[#2a2118] via-surface-container to-surface-container-low",
+  culture: "from-[#3e241c] via-surface-container to-surface-container-low",
+  heritage: "from-[#322018] via-surface-container to-surface-container-low",
+  education: "from-[#2c221c] via-surface-container to-surface-container-low",
+  resilience: "from-[#3a1c22] via-surface-container to-surface-container-low",
 };
 
 export function CommunityCard({ community }: { community: CommunityCardData }) {
@@ -35,7 +35,7 @@ export function CommunityCard({ community }: { community: CommunityCardData }) {
   const contract = `#${community.id.slice(-4).toUpperCase()}`;
 
   return (
-    <article className="group flex flex-col overflow-hidden rounded-xl border border-border/40 bg-surface-container-low shadow-lg transition-transform active:scale-[0.99]">
+    <article className="group border-border/40 bg-surface-container-low flex flex-col overflow-hidden rounded-xl border shadow-lg transition-transform active:scale-[0.99]">
       <Link href={href} className="relative h-44 w-full overflow-hidden">
         {community.images[0] ? (
           // eslint-disable-next-line @next/next/no-img-element
@@ -52,22 +52,22 @@ export function CommunityCard({ community }: { community: CommunityCardData }) {
                 CATEGORY_GRADIENTS.environment,
             )}
           >
-            <span className="absolute inset-0 bg-[radial-gradient(400px_200px_at_70%_20%,rgba(0,229,153,0.18),transparent)]" />
-            <Leaf className="relative h-10 w-10 text-primary/60" />
+            <span className="absolute inset-0 bg-[radial-gradient(400px_200px_at_70%_20%,rgba(229,142,38,0.16),transparent)]" />
+            <Leaf className="text-primary/60 relative h-10 w-10" />
           </div>
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-surface-container-low via-surface-container-low/20 to-transparent" />
-        <div className="absolute left-2.5 top-2.5">
+        <div className="from-surface-container-low via-surface-container-low/20 absolute inset-0 bg-gradient-to-t to-transparent" />
+        <div className="absolute top-2.5 left-2.5">
           <Badge variant="glass" className="border-primary/20">
-            <span className="h-1 w-1 rounded-full bg-primary animate-pulse" />
+            <span className="bg-primary h-1 w-1 animate-pulse rounded-full" />
             Verificado Unlock
           </Badge>
         </div>
-        <div className="absolute right-2.5 top-2.5">
+        <div className="absolute top-2.5 right-2.5">
           <Badge variant="success">Activo</Badge>
         </div>
-        <div className="absolute bottom-2 left-3 flex items-center gap-1 font-mono text-[11px] text-foreground">
-          <MapPin className="h-3.5 w-3.5 text-secondary" />
+        <div className="text-foreground absolute bottom-2 left-3 flex items-center gap-1 font-mono text-[11px]">
+          <MapPin className="text-secondary h-3.5 w-3.5" />
           {community.department}
         </div>
       </Link>
@@ -78,21 +78,21 @@ export function CommunityCard({ community }: { community: CommunityCardData }) {
             <Badge variant="glass">
               {CATEGORY_LABELS[community.category] ?? community.category}
             </Badge>
-            <span className="font-mono text-[10px] uppercase tracking-wider text-outline">
+            <span className="text-outline font-mono text-[10px] tracking-wider uppercase">
               Lock {contract}
             </span>
           </div>
-          <h3 className="pt-1 font-display text-lg font-bold leading-tight text-foreground">
-            <Link href={href} className="transition-colors hover:text-primary">
+          <h3 className="font-display text-foreground pt-1 text-lg leading-tight font-bold">
+            <Link href={href} className="hover:text-primary transition-colors">
               {community.name}
             </Link>
           </h3>
-          <p className="line-clamp-2 text-sm text-muted-foreground">
+          <p className="text-muted-foreground line-clamp-2 text-sm">
             {community.problem}
           </p>
         </div>
 
-        <div className="rounded-lg bg-surface-container p-2.5">
+        <div className="bg-surface-container rounded-lg p-2.5">
           <ProgressGoal
             goalAmount={community.goalAmount}
             raisedAmount={community.raisedAmount}

@@ -4,9 +4,9 @@ import { Header } from "./header";
 
 export function PageWrapper({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex min-h-screen flex-col bg-surface text-foreground">
+    <div className="bg-surface text-foreground flex min-h-screen flex-col">
       <Header />
-      <main className="flex-1 pb-20 pt-16 md:pb-0">{children}</main>
+      <main className="flex-1 pt-16 pb-20 md:pb-0">{children}</main>
       <Footer />
       <BottomNav />
     </div>
