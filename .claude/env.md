@@ -6,6 +6,11 @@
 DATABASE_URL=""            # PostgreSQL connection string
 BETTER_AUTH_SECRET=""      # generate: openssl rand -base64 32
 
+## Email (dev: MailHog)
+SMTP_HOST="localhost"      # "mailhog" inside docker-compose
+SMTP_PORT="1025"
+SMTP_FROM="Palmera <no-reply@palmera.local>"
+
 ## Palmera-specific (add to .env.local)
 NEXT_PUBLIC_NETWORK_ID="43114"                    # Avalanche C-Chain
 NEXT_PUBLIC_USDC_ADDRESS="0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E"  # native USDC on Avalanche

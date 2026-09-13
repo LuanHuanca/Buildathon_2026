@@ -1,6 +1,6 @@
 "use client";
 
-import { Activity, Compass, Trees } from "lucide-react";
+import { Activity, Compass, Trees, UserRound } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -10,6 +10,7 @@ const items = [
   { href: "/", label: "Inicio", icon: Trees, exact: true },
   { href: "/comunidades", label: "Explorar", icon: Compass },
   { href: "/transparencia", label: "Impacto", icon: Activity },
+  { href: "/perfil", label: "Perfil", icon: UserRound },
 ];
 
 export function BottomNav() {

@@ -16,6 +16,13 @@ services:
       timeout: 5s
       retries: 10
 
+  mailhog:
+    image: mailhog/mailhog
+    restart: unless-stopped
+    ports:
+      - "1025:1025" # SMTP
+      - "8025:8025" # web UI
+
   app:
     build:
       context: .
@@ -23,11 +30,16 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      mailhog:
+        condition: service_started
     environment:
       NODE_ENV: production
       DATABASE_URL: postgresql://postgres:postgres@db:5432/palmera
       BETTER_AUTH_SECRET: "Garx3B05ov5SLIg/yHPU6mSOH7F2F/GRiB8CzK1vNS4="
       BETTER_AUTH_URL: http://localhost:3000
+      SMTP_HOST: mailhog
+      SMTP_PORT: "1025"
+      SMTP_FROM: "Palmera <no-reply@palmera.local>"
     ports:
       - "3000:3000"
 

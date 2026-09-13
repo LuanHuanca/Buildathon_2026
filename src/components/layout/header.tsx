@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { UserMenu } from "~/components/auth/user-menu";
 import { WalletButton } from "~/components/web3/wallet-button";
 
 const nav = [
@@ -44,6 +45,7 @@ export function Header() {
             <span className="h-1.5 w-1.5 rounded-full bg-primary" />
             BOL_L2
           </span>
+          <UserMenu />
           <WalletButton />
         </div>
       </div>

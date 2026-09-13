@@ -17,10 +17,11 @@ Plataforma token-gated que conecta aliados globales con comunidades indígenas d
 docker compose up -d --build
 ```
 
-Esto levanta PostgreSQL + la app (aplica migraciones, siembra las 3 comunidades de ejemplo y arranca el servidor).
+Esto levanta PostgreSQL + MailHog + la app (aplica migraciones, siembra las 3 comunidades de ejemplo y arranca el servidor).
 
 - App: http://localhost:3000
 - PostgreSQL: `localhost:5434` (user/pass: `postgres`)
+- MailHog (emails de verificación): http://localhost:8025
 
 Parar:
 
@@ -29,9 +30,16 @@ docker compose down          # conserva la data
 docker compose down -v       # borra la data
 ```
 
+## Auth (email/password)
+
+`/registro` → crea cuenta (mejora que se verifique) → revisá el correo de
+verificación en **MailHog** (`http://localhost:8025`) → clic en el enlace →
+quedás logueado. `/login` para volver a entrar. `/perfil` muestra tu cuenta,
+tu wallet conectada y tu historial de donaciones.
+
 ## Correr en local (desarrollo)
 
-Requisitos: Node 22+, pnpm 10, PostgreSQL.
+Requisitos: Node 22+, pnpm 10, PostgreSQL (y opcional MailHog para email).
 
 ```bash
 cp .env.example .env   # y completá DATABASE_URL y BETTER_AUTH_SECRET
@@ -63,6 +71,7 @@ src/
 | `DATABASE_URL` | conexión PostgreSQL |
 | `BETTER_AUTH_SECRET` | secreto de sesiones |
 | `BETTER_AUTH_URL` | URL base (http://localhost:3000) |
+| `SMTP_HOST` / `SMTP_PORT` / `SMTP_FROM` | servidor de email (MailHog en dev) |
 | `NEXT_PUBLIC_TREASURY_ADDRESS` | wallet que recibe las donaciones en USDC |
 | `NEXT_PUBLIC_USDC_ADDRESS` | USDC nativo en Avalanche (ya tiene default) |
 | `NEXT_PUBLIC_WALLETCONNECT_ID` | WalletConnect (opcional) |

@@ -71,6 +71,17 @@ Pollar onramp are deferred until LOCK_ADDRESS + Pollar API keys exist;
 UnlockGate is a connect-wallet gate for now (extends ADR-001).
 Status: Accepted
 
+## ADR-010: Auth + email (MailHog)
+Date: 2026-09-13
+Decision: better-auth email/password with email verification. Emails are
+sent via nodemailer to MailHog (dev SMTP, `SMTP_HOST`/`SMTP_PORT` env).
+`/login` + `/registro` pages use `authClient` (better-auth/react).
+Profile `/perfil` is server-guarded (`getSession`) and shows the user's
+donations filtered by connected wallet via `donation.getByWallet`.
+Reason: user wanted full auth flow working locally; MailHog avoids
+depending on a real SMTP provider during development.
+Status: Accepted
+
 ## ADR-009: Donation flow — native Avalanche (Pollar dropped)
 Date: 2026-09-13
 Decision: Drop Pollar (fiat onramp) and make donations a native USDC

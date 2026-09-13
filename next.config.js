@@ -8,8 +8,8 @@ import "./src/env.js";
 const config = {
   // standalone output → slim Docker image + faster cold start
   output: "standalone",
-  // keep Prisma external (native engine not bundleable by webpack)
-  serverExternalPackages: ["@prisma/client", "prisma"],
+  // keep Prisma + nodemailer external (native engine / CJS not bundleable)
+  serverExternalPackages: ["@prisma/client", "prisma", "nodemailer"],
   poweredByHeader: false,
 };
 

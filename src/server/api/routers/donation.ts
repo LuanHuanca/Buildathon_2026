@@ -21,6 +21,16 @@ export const donationRouter = createTRPCRouter({
     };
   }),
 
+  getByWallet: publicProcedure
+    .input(z.object({ walletAddress: z.string().min(1) }))
+    .query(async ({ ctx, input }) => {
+      return ctx.db.donation.findMany({
+        where: { walletAddress: input.walletAddress },
+        orderBy: { createdAt: "desc" },
+        include: { community: { select: { name: true, slug: true } } },
+      });
+    }),
+
   create: publicProcedure
     .input(
       z.object({
